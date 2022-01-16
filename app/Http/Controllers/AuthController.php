@@ -17,14 +17,7 @@ class AuthController extends Controller
 		$credentials = $request->only(['user_name', 'password']);
 
 		if (!auth()->attempt($credentials)) {
-			return $this->respondError(
-				'Invalid credentials',
-				[
-					'user_name' => ['Incorrect username or password'],
-					'password' => ['Incorrect username or password']
-				],
-				422
-			);
+			return $this->respondBadRequest('Invalid credentials');
 		}
 
 		$tokenResult = auth()->user()->createToken('Personal Access Token');
