@@ -23,11 +23,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 	Route::get('/auth/me', [AuthController::class, 'me']);
 	Route::post('/auth/signout', [AuthController::class, 'signout']);
 
-	Route::get('/users', [UserController::class, 'index'])->middleware('role:superadmin');
-	Route::get('/users/{id}', [UserController::class, 'show'])->middleware('role:superadmin');
-	Route::post('/users', [UserController::class, 'store'])->middleware('role:superadmin');
-	Route::put('/users/{id}', [UserController::class, 'update'])->middleware('role:superadmin');
-	Route::delete('/users/{id}', [UserController::class, 'destroy'])->middleware('role:superadmin');
+	Route::get('/users', [UserController::class, 'index'])->middleware('role:owner');
+	Route::get('/users/{id}', [UserController::class, 'show'])->middleware('role:owner');
+	Route::post('/users', [UserController::class, 'store'])->middleware('role:owner');
+	Route::put('/users/{id}', [UserController::class, 'update'])->middleware('role:owner');
+	Route::delete('/users/{id}', [UserController::class, 'destroy'])->middleware('role:owner');
 
 	Route::post('/images/upload', [ImageController::class, 'upload']);
 });

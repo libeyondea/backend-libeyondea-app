@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
 			'user_name' => 'libeyondea',
 			'email' => 'libeyondea@gmail.com',
 			'password' => 'libeyondea',
-			'role' => 'superadmin',
+			'role' => 'owner',
 			'status' => 'active',
 		]);
 	}

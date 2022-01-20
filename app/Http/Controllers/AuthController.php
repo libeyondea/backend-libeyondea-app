@@ -7,6 +7,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponser;
+use Illuminate\Support\Arr;
 
 class AuthController extends Controller
 {
@@ -16,7 +17,7 @@ class AuthController extends Controller
 	{
 		$credentials = $request->only(['user_name', 'password']);
 
-		if (!auth()->attempt($credentials)) {
+		if (!auth()->attempt(Arr::add($credentials, 'status', 'active'))) {
 			return $this->respondBadRequest('Invalid credentials');
 		}
 

@@ -62,8 +62,8 @@ class UserController extends Controller
 	{
 		$userData = $request->all();
 		$user = User::findOrFail($id);
-		if (!User::where('role', 'superadmin')->where('id', '!=', $user->id)->first() && $userData['role'] !== 'superadmin') {
-			return $this->respondBadRequest('You must have at least one user with super admin role.');
+		if (!User::where('role', 'owner')->where('id', '!=', $user->id)->first() && $userData['role'] !== 'owner') {
+			return $this->respondBadRequest('You must have at least one user with owner role.');
 		}
 		$user->update($userData);
 		return $this->respondSuccess(new UserResource($user));
@@ -78,8 +78,8 @@ class UserController extends Controller
 	public function destroy($id)
 	{
 		$user = User::findOrFail($id);
-		if (!User::where('role', 'superadmin')->where('id', '!=', $user->id)->first()) {
-			return $this->respondBadRequest('You must have at least one user with super admin role.');
+		if (!User::where('role', 'owner')->where('id', '!=', $user->id)->first()) {
+			return $this->respondBadRequest('You must have at least one user with owner role.');
 		}
 		$user->delete();
 		return $this->respondSuccess();

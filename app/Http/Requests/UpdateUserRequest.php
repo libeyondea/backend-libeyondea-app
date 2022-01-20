@@ -25,7 +25,7 @@ class UpdateUserRequest extends FormRequest
 			'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
 			'password' => 'string|min:6|max:66',
 			'avatar' => 'nullable|string|max:255',
-			'role' => 'required|string|in:superadmin,admin,moderator,member',
+			'role' => 'required|string|in:owner,admin,moderator,member',
 			'status' => 'required|string|in:active,inactive,banned',
 		];
 	}
