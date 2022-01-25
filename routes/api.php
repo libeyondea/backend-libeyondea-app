@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,9 @@ Route::post('/auth/signup', [AuthController::class, 'signup']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
 	Route::get('/auth/me', [AuthController::class, 'me']);
 	Route::post('/auth/signout', [AuthController::class, 'signout']);
+
+	Route::get('/profile', [ProfileController::class, 'show']);
+	Route::put('/profile', [ProfileController::class, 'update']);
 
 	Route::get('/users', [UserController::class, 'index'])->middleware('role:owner');
 	Route::get('/users/{id}', [UserController::class, 'show'])->middleware('role:owner');

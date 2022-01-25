@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SignupRequest;
+use App\Http\Requests\SignupAuthRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,7 +28,7 @@ class AuthController extends Controller
 		]);
 	}
 
-	public function signup(SignupRequest $request)
+	public function signup(SignupAuthRequest $request)
 	{
 		$userData = $request->merge(['role' => 'member', 'status' => 'inactive', 'avatar' => null])->all();
 		$user = User::create($userData);

@@ -14,23 +14,6 @@ class User extends Authenticatable
 	use HasApiTokens, HasFactory, Notifiable, PaginationScope;
 
 	/**
-	 * The "booted" method of the model.
-	 *
-	 * @return void
-	 */
-	protected static function booted()
-	{
-		static::creating(function ($user) {
-			$user->password = bcrypt($user->password);
-		});
-		static::updating(function ($user) {
-			if ($user->password) {
-				$user->password = bcrypt($user->password);
-			}
-		});
-	}
-
-	/**
 	 * The attributes that are mass assignable.
 	 *
 	 * @var array<int, string>
@@ -68,5 +51,10 @@ class User extends Authenticatable
 	public function getAvatarUrlAttribute()
 	{
 		return $this->avatar ? config('app.img_url') . '/' . $this->avatar : config('app.img_url') . '/' . 'default-avatar.png';
+	}
+
+	public function setPasswordAttribute($password)
+	{
+		$this->attributes['password'] = bcrypt($password);
 	}
 }
