@@ -6,36 +6,36 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateUsersTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('user_name')->unique();
-            $table->string('avatar')->nullable();
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->enum('role', ['owner', 'admin', 'moderator', 'member'])->default('member');
-            $table->enum('status', ['active', 'inactive', 'banned'])->default('inactive');
-            $table->timestamps();
-        });
-    }
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::create('users', function (Blueprint $table) {
+			$table->id();
+			$table->string('first_name');
+			$table->string('last_name');
+			$table->string('user_name')->unique();
+			$table->string('avatar')->nullable();
+			$table->string('email')->unique();
+			$table->timestamp('email_verified_at')->nullable();
+			$table->string('password');
+			$table->rememberToken();
+			$table->enum('role', ['owner', 'admin', 'moderator', 'member'])->default('member');
+			$table->enum('status', ['active', 'inactive', 'banned'])->default('inactive');
+			$table->timestamps();
+		});
+	}
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('users');
-    }
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		Schema::dropIfExists('users');
+	}
 }
