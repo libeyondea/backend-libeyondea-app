@@ -91,6 +91,6 @@ class UserController extends Controller
 			return $this->respondBadRequest('You must have at least one user with owner role.');
 		}
 		$user->delete();
-		return $this->respondSuccess();
+		return $this->respondSuccess(new UserResource($user));
 	}
 }
