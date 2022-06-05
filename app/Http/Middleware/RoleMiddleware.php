@@ -27,7 +27,7 @@ class RoleMiddleware
 			? $role
 			: explode('|', $role);
 
-		if (collect($roles)->contains(Auth::user()->role)) {
+		if (collect($roles)->contains(Auth::user()->role) && Auth::user()->status === 'active') {
 			return $next($request);
 		} else {
 			return $this->respondForbidden();

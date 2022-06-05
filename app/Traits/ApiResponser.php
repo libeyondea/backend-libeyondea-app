@@ -47,33 +47,33 @@ trait ApiResponser
 		);
 	}
 
-	protected function respondBadRequest($message = 'Bad Request')
+	protected function respondBadRequest($message = 'Bad Request', $errors = null)
 	{
-		return $this->respondError($message, null, 400);
+		return $this->respondError($message, $errors, 400);
 	}
 
-	protected function respondUnauthorized($message = 'Unauthorized')
+	protected function respondUnauthorized($message = 'Unauthorized', $errors = null)
 	{
-		return $this->respondError($message, null, 401);
+		return $this->respondError($message, $errors, 401);
 	}
 
-	protected function respondForbidden($message = 'Forbidden')
+	protected function respondForbidden($message = 'Forbidden', $errors = null)
 	{
-		return $this->respondError($message, null, 403);
+		return $this->respondError($message, $errors, 403);
 	}
 
-	protected function respondNotFound($message = 'Not Found')
+	protected function respondNotFound($message = 'Not Found', $errors = null)
 	{
-		return $this->respondError($message, null, 404);
+		return $this->respondError($message, $errors, 404);
 	}
 
-	protected function respondUnprocessableEntity($message = 'Unprocessable Entity')
+	protected function respondUnprocessableEntity($message = 'Unprocessable Entity', $errors = null)
 	{
-		return $this->respondError($message, null, 422);
+		return $this->respondError($message, $errors, 422);
 	}
 
-	protected function respondInternalError($message = 'Internal Error')
+	protected function respondInternalError($message = 'Internal Error', $errors = null)
 	{
-		return $this->respondError($message, null, 500);
+		return $this->respondError($message, $errors, 500);
 	}
 }

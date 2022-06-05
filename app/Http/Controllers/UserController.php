@@ -71,8 +71,8 @@ class UserController extends Controller
 	{
 		$userData = $request->all();
 		$user = User::findOrFail($id);
-		if (!User::where('role', 'owner')->where('id', '!=', $user->id)->first() && $userData['role'] !== 'owner') {
-			return $this->respondBadRequest('You must have at least one user with owner role.');
+		if (auth()->user()->id === $user->id) {
+			return $this->respondForbidden('You cannot update your own profile.');
 		}
 		$user->update($userData);
 		return $this->respondSuccess(new UserResource($user));
@@ -87,8 +87,8 @@ class UserController extends Controller
 	public function destroy($id)
 	{
 		$user = User::findOrFail($id);
-		if (!User::where('role', 'owner')->where('id', '!=', $user->id)->first()) {
-			return $this->respondBadRequest('You must have at least one user with owner role.');
+		if (auth()->user()->id === $user->id) {
+			return $this->respondForbidden('You cannot delete your own profile.');
 		}
 		$user->delete();
 		return $this->respondSuccess(new UserResource($user));
