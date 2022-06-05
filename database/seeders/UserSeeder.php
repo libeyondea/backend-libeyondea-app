@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
 			'last_name' => 'Nguyen',
 			'user_name' => 'libeyondea',
 			'email' => 'libeyondea@gmail.com',
-			'password' => 'libeyondea',
+			'password' => 'Wtpmjgda1999',
 			'role' => 'owner',
 			'status' => 'active',
 		]);
