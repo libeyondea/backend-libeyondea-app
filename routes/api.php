@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,12 +18,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/auth/signin', [AuthController::class, 'signin']);
-Route::post('/auth/signup', [AuthController::class, 'signup']);
+Route::post('/auth/signin', [AuthController::class, 'signIn']);
+Route::post('/auth/signup', [AuthController::class, 'signUp']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 	Route::get('/auth/me', [AuthController::class, 'me']);
-	Route::post('/auth/signout', [AuthController::class, 'signout']);
+	Route::post('/auth/signout', [AuthController::class, 'signOut']);
 
 	Route::get('/profile', [ProfileController::class, 'show']);
 	Route::put('/profile', [ProfileController::class, 'update']);
@@ -32,6 +33,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 	Route::post('/users', [UserController::class, 'store'])->middleware('role:owner');
 	Route::put('/users/{id}', [UserController::class, 'update'])->middleware('role:owner');
 	Route::delete('/users/{id}', [UserController::class, 'destroy'])->middleware('role:owner');
+
+	Route::get('/settings', [SettingController::class, 'show']);
+	Route::put('/settings', [SettingController::class, 'update']);
 
 	Route::post('/images/upload', [ImageController::class, 'upload']);
 });

@@ -8,6 +8,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
+use App\Models\Setting;
 use App\Models\User;
 use App\Traits\ApiResponser;
 
@@ -57,6 +58,10 @@ class UserController extends Controller
 	{
 		$userData = $request->all();
 		$user = User::create($userData);
+		Setting::create([
+			'user_id' => $user->id,
+			'navbar' => 'fixed',
+		]);
 		return $this->respondSuccess(new UserResource($user));
 	}
 

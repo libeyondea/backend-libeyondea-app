@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SignupAuthRequest;
+use App\Http\Resources\MeResource;
 use App\Http\Resources\UserResource;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponser;
@@ -12,7 +14,7 @@ class AuthController extends Controller
 {
 	use ApiResponser;
 
-	public function signin(Request $request)
+	public function signIn(Request $request)
 	{
 		$credentials = $request->only(['user_name', 'password']);
 
@@ -34,14 +36,18 @@ class AuthController extends Controller
 		]);
 	}
 
-	public function signup(SignupAuthRequest $request)
+	public function signUp(SignupAuthRequest $request)
 	{
 		$userData = $request->merge(['role' => 'member', 'status' => 'inactive', 'avatar' => null])->all();
 		$user = User::create($userData);
+		Setting::create([
+			'user_id' => $user->id,
+			'navbar' => 'fixed',
+		]);
 		return $this->respondSuccess(new UserResource($user));
 	}
 
-	public function signout()
+	public function signOut()
 	{
 		/** @var \App\Models\User $user **/
 		$user = auth()->user();
@@ -52,6 +58,6 @@ class AuthController extends Controller
 	public function me()
 	{
 		$user = User::findOrFail(auth()->user()->id);
-		return $this->respondSuccess(new UserResource($user));
+		return $this->respondSuccess(new MeResource($user));
 	}
 }
