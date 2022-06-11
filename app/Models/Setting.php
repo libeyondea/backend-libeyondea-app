@@ -10,8 +10,8 @@ class Setting extends Model
 	use HasFactory;
 
 	protected $fillable = [
+		'user_id',
 		'navbar',
-		'language',
 	];
 
 	public function user()
