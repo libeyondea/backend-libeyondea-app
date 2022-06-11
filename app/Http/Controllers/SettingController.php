@@ -13,7 +13,7 @@ class SettingController extends Controller
 
 	public function show()
 	{
-		$setting = Setting::findOrFail(auth()->user()->id);
+		$setting = Setting::where('user_id', auth()->user()->id)->firstOrFail();
 		return $this->respondSuccess(new SettingResource($setting));
 	}
 
