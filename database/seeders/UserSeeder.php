@@ -23,6 +23,6 @@ class UserSeeder extends Seeder
 			'role' => 'owner',
 			'status' => 'active',
 		]);
-		User::factory(20)->create();
+		User::factory(50)->create();
 	}
 }
