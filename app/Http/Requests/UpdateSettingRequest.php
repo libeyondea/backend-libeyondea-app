@@ -18,6 +18,7 @@ class UpdateSettingRequest extends FormRequest
 	{
 		return [
 			'navbar' => 'required|string|in:fixed,static',
+			'footer' => 'required|string|in:fixed,static',
 		];
 	}
 }

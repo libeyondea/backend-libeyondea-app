@@ -25,9 +25,8 @@ class UserController extends Controller
 	{
 		$users = new User();
 		if ($request->filled('q')) {
-			$users = $users->select('*', DB::Raw("CONCAT(last_name, ' ', first_name) AS full_name"))
-				->where('last_name', 'LIKE', '%' . $request->q . '%')
-				->orWhere('first_name', 'LIKE', '%' . $request->q . '%')
+			$users = $users->where('first_name', 'LIKE', '%' . $request->q . '%')
+				->orWhere('last_name', 'LIKE', '%' . $request->q . '%')
 				->orWhere('user_name', 'LIKE', '%' . $request->q . '%')
 				->orWhere('email', 'LIKE', '%' . $request->q . '%');
 		}
@@ -61,6 +60,7 @@ class UserController extends Controller
 		Setting::create([
 			'user_id' => $user->id,
 			'navbar' => 'fixed',
+			'footer' => 'static',
 		]);
 		return $this->respondSuccess(new UserResource($user));
 	}

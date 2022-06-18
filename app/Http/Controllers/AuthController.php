@@ -43,6 +43,7 @@ class AuthController extends Controller
 		Setting::create([
 			'user_id' => $user->id,
 			'navbar' => 'fixed',
+			'footer' => 'static',
 		]);
 		return $this->respondSuccess(new UserResource($user));
 	}

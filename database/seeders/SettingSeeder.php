@@ -19,6 +19,7 @@ class SettingSeeder extends Seeder
 			Setting::create([
 				'user_id' => $user->id,
 				'navbar' => 'fixed',
+				'footer' => 'static',
 			]);
 		}
 	}

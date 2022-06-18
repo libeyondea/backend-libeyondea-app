@@ -23,6 +23,7 @@ class CreateSettingsTable extends Migration
 				->cascadeOnUpdate()
 				->cascadeOnDelete();
 			$table->enum('navbar', ['fixed', 'static'])->default('fixed');
+			$table->enum('footer', ['fixed', 'static'])->default('static');
 			$table->timestamps();
 		});
 	}

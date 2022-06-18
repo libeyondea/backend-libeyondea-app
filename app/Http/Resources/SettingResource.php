@@ -17,6 +17,7 @@ class SettingResource extends JsonResource
 		return [
 			'id' => $this->id,
 			'navbar' => $this->navbar,
+			'footer' => $this->footer,
 			'created_at' => $this->created_at,
 			'updated_at' => $this->updated_at,
 		];
