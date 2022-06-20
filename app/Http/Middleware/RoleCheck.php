@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\ApiResponser;
 
-class RoleMiddleware
+class RoleCheck
 {
 	use ApiResponser;
 
@@ -14,7 +14,7 @@ class RoleMiddleware
 	 * Handle an incoming request.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
-	 * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+	 * @param  \Closure  $next
 	 * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
 	 */
 	public function handle($request, Closure $next, $role)
@@ -27,10 +27,10 @@ class RoleMiddleware
 			? $role
 			: explode('|', $role);
 
-		if (collect($roles)->contains(Auth::user()->role) && Auth::user()->status === 'active') {
-			return $next($request);
-		} else {
+		if (!collect($roles)->contains(Auth::user()->role)) {
 			return $this->respondForbidden();
 		}
+
+		return $next($request);
 	}
 }

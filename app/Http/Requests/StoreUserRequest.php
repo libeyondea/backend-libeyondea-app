@@ -24,7 +24,8 @@ class StoreUserRequest extends FormRequest
 			'password' => 'required|string|min:6|max:66',
 			'avatar' => 'nullable|string|max:255',
 			'role' => 'required|string|in:owner,admin,moderator,member',
-			'status' => 'required|string|in:active,inactive,banned',
+			'verified' => 'required|boolean',
+			'blocked' => 'required|boolean',
 		];
 	}
 }

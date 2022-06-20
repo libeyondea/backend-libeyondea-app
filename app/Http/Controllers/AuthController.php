@@ -9,6 +9,9 @@ use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponser;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 class AuthController extends Controller
 {
@@ -23,8 +26,10 @@ class AuthController extends Controller
 				'user_name' => 'User name or password is incorrect.',
 				'password' => 'User name or password is incorrect.'
 			]);
-		} else if (auth()->user()->status !== 'active') {
-			return $this->respondForbidden('User is not active.');
+		} else if (!auth()->user()->verified) {
+			return $this->respondForbidden('Your email address is not verified.');
+		} else if (auth()->user()->blocked) {
+			return $this->respondForbidden('Your account is blocked.');
 		}
 
 		/** @var \App\Models\User $user **/
@@ -38,13 +43,14 @@ class AuthController extends Controller
 
 	public function signUp(SignupAuthRequest $request)
 	{
-		$userData = $request->merge(['role' => 'member', 'status' => 'inactive', 'avatar' => null])->all();
+		$userData = $request->merge(['role' => 'member', 'avatar' => null, 'verified' => false, 'blocked' => false])->all();
 		$user = User::create($userData);
 		Setting::create([
 			'user_id' => $user->id,
 			'navbar' => 'fixed',
 			'footer' => 'static',
 		]);
+		event(new Registered($user));
 		return $this->respondSuccess(new UserResource($user));
 	}
 
@@ -60,5 +66,24 @@ class AuthController extends Controller
 	{
 		$user = User::findOrFail(auth()->user()->id);
 		return $this->respondSuccess(new MeResource($user));
+	}
+
+	public function verifyEmail(Request $request)
+	{
+		$user = User::where('id', $request->id)->firstOrFail();
+		if ($user->verified) {
+			return $this->respondBadRequest('Email already verified.');
+		}
+		$user->update(['verified' => true]);
+		event(new Verified($user));
+		return $this->respondSuccess();
+	}
+
+	public function sendEmail()
+	{
+		/** @var \App\Models\User $user **/
+		$user = auth()->user();
+		$user->sendEmailVerificationNotification();
+		return $this->respondSuccess();
 	}
 }

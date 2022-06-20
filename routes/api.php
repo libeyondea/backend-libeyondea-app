@@ -5,6 +5,8 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,10 +22,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/signin', [AuthController::class, 'signIn']);
 Route::post('/auth/signup', [AuthController::class, 'signUp']);
+Route::get('/auth/verify-email/{id}/{hash}', [AuthController::class, 'verifyEmail'])->middleware(['signed'])->name('verification.verify');
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 	Route::get('/auth/me', [AuthController::class, 'me']);
 	Route::post('/auth/signout', [AuthController::class, 'signOut']);
+	Route::post('/auth/send-email', [AuthController::class, 'sendEmail'])->middleware(['throttle:6,1'])->name('verification.send');
 
 	Route::get('/profile', [ProfileController::class, 'show']);
 	Route::put('/profile', [ProfileController::class, 'update']);
