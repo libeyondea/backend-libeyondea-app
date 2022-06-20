@@ -59,8 +59,8 @@ class UserController extends Controller
 		$user = User::create($userData);
 		Setting::create([
 			'user_id' => $user->id,
-			'navbar' => 'fixed',
-			'footer' => 'static',
+			'fixed_navbar' => true,
+			'fixed_footer' => false
 		]);
 		return $this->respondSuccess(new UserResource($user));
 	}

@@ -26,7 +26,7 @@ class UpdateUserRequest extends FormRequest
 			'password' => 'string|min:6|max:66',
 			'avatar' => 'nullable|string|max:255',
 			'role' => 'required|string|in:owner,admin,moderator,member',
-			'status' => 'required|string|in:active,inactive,banned',
+			'actived' => 'required|boolean',
 		];
 	}
 }

@@ -17,8 +17,8 @@ class UpdateSettingRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'navbar' => 'required|string|in:fixed,static',
-			'footer' => 'required|string|in:fixed,static',
+			'fixed_navbar' => 'boolean',
+			'fixed_footer' => 'boolean',
 		];
 	}
 }

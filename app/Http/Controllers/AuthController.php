@@ -23,8 +23,8 @@ class AuthController extends Controller
 				'user_name' => 'User name or password is incorrect.',
 				'password' => 'User name or password is incorrect.'
 			]);
-		} else if (auth()->user()->status !== 'active') {
-			return $this->respondForbidden('User is not active.');
+		} else if (!auth()->user()->actived) {
+			return $this->respondForbidden('Your account is not actived.');
 		}
 
 		/** @var \App\Models\User $user **/
@@ -38,12 +38,12 @@ class AuthController extends Controller
 
 	public function signUp(SignupAuthRequest $request)
 	{
-		$userData = $request->merge(['role' => 'member', 'status' => 'inactive', 'avatar' => null])->all();
+		$userData = $request->merge(['role' => 'member', 'avatar' => null, 'actived' => false])->all();
 		$user = User::create($userData);
 		Setting::create([
 			'user_id' => $user->id,
-			'navbar' => 'fixed',
-			'footer' => 'static',
+			'fixed_navbar' => true,
+			'fixed_footer' => false
 		]);
 		return $this->respondSuccess(new UserResource($user));
 	}

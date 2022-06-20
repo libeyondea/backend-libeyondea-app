@@ -26,7 +26,7 @@ class User extends Authenticatable
 		'email',
 		'password',
 		'role',
-		'status',
+		'actived',
 	];
 
 	/**
@@ -46,6 +46,7 @@ class User extends Authenticatable
 	 */
 	protected $casts = [
 		'email_verified_at' => 'datetime',
+		'actived' => 'boolean',
 	];
 
 	public function getAvatarUrlAttribute()

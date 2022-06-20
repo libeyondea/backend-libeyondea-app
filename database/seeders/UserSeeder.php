@@ -19,9 +19,9 @@ class UserSeeder extends Seeder
 			'last_name' => 'Nguyen',
 			'user_name' => 'libeyondea',
 			'email' => 'libeyondea@gmail.com',
-			'password' => 'Wtpmjgda1999',
+			'password' => 'libeyondea',
 			'role' => 'owner',
-			'status' => 'active',
+			'actived' => true,
 		]);
 		User::factory(50)->create();
 	}

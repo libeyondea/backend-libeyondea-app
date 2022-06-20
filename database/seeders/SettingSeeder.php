@@ -18,8 +18,6 @@ class SettingSeeder extends Seeder
 		foreach (User::all() as $user) {
 			Setting::create([
 				'user_id' => $user->id,
-				'navbar' => 'fixed',
-				'footer' => 'static',
 			]);
 		}
 	}

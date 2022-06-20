@@ -22,8 +22,8 @@ class CreateSettingsTable extends Migration
 				->constrained()
 				->cascadeOnUpdate()
 				->cascadeOnDelete();
-			$table->enum('navbar', ['fixed', 'static'])->default('fixed');
-			$table->enum('footer', ['fixed', 'static'])->default('static');
+			$table->boolean('fixed_navbar')->default(true);
+			$table->boolean('fixed_footer')->default(false);
 			$table->timestamps();
 		});
 	}

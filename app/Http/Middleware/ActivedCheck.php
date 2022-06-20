@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\ApiResponser;
 
-class RoleMiddleware
+class ActivedCheck
 {
 	use ApiResponser;
 
@@ -17,20 +17,16 @@ class RoleMiddleware
 	 * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
 	 * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
 	 */
-	public function handle($request, Closure $next, $role)
+	public function handle($request, Closure $next)
 	{
 		if (Auth::guest()) {
 			return $this->respondUnauthorized();
 		}
 
-		$roles = is_array($role)
-			? $role
-			: explode('|', $role);
-
-		if (collect($roles)->contains(Auth::user()->role) && Auth::user()->status === 'active') {
-			return $next($request);
-		} else {
-			return $this->respondForbidden();
+		if (!Auth::user()->actived) {
+			return $this->respondForbidden('Your account is not actived.');
 		}
+
+		return $next($request);
 	}
 }
