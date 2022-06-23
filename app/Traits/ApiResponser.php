@@ -39,9 +39,13 @@ trait ApiResponser
 	protected function respondError($message, $errors = null, $statusCode = 500)
 	{
 		return $this->respond(
-			[
+			$errors ? [
 				'message' => $message,
 				'errors' => $errors
+
+			] : [
+				'message' => $message,
+
 			],
 			$statusCode
 		);
