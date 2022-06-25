@@ -25,8 +25,8 @@ class UserController extends Controller
 	{
 		$users = new User();
 		if ($request->filled('q')) {
-			$users = $users->where('first_name', 'LIKE', '%' . $request->q . '%')
-				->orWhere('last_name', 'LIKE', '%' . $request->q . '%')
+			$users = $users->where(DB::raw('CONCAT_WS(" ", first_name, last_name)'), 'LIKE', '%' . $request->q . '%')
+				->orWhere(DB::raw('CONCAT_WS(" ", last_name, first_name)'), 'LIKE', '%' . $request->q . '%')
 				->orWhere('user_name', 'LIKE', '%' . $request->q . '%')
 				->orWhere('email', 'LIKE', '%' . $request->q . '%');
 		}
