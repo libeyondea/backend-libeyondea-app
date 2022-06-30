@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
@@ -36,6 +37,8 @@ Route::group(['middleware' => ['auth:sanctum', 'actived']], function () {
 
 	Route::get('/settings', [SettingController::class, 'show']);
 	Route::put('/settings', [SettingController::class, 'update']);
+
+	Route::get('/dashboard', [DashboardController::class, 'show']);
 
 	Route::post('/images/upload', [ImageController::class, 'upload']);
 });
