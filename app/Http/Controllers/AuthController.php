@@ -44,6 +44,7 @@ class AuthController extends Controller
 			'fixed_navbar' => true,
 			'fixed_footer' => false
 		]);
+
 		return $this->respondSuccess(new MeResource($user));
 	}
 
@@ -52,12 +53,14 @@ class AuthController extends Controller
 		/** @var \App\Models\User $user **/
 		$user = auth()->user();
 		$user->tokens()->delete();
+
 		return $this->respondSuccess();
 	}
 
 	public function me()
 	{
 		$user = User::findOrFail(auth()->user()->id);
+
 		return $this->respondSuccess(new MeResource($user));
 	}
 }

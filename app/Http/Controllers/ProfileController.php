@@ -22,6 +22,7 @@ class ProfileController extends Controller
 		$userData = $request->only(['first_name', 'last_name', 'user_name', 'email', 'password', 'avatar']);
 		$user = User::findOrFail(auth()->user()->id);
 		$user->update($userData);
+
 		return $this->respondSuccess(new ProfileResource($user));
 	}
 }

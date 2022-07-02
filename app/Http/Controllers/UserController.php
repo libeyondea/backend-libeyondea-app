@@ -32,6 +32,7 @@ class UserController extends Controller
 		}
 		$usersCount = $users->get()->count();
 		$users = $users->pagination();
+
 		return $this->respondSuccessWithPagination(new UserCollection($users), $usersCount);
 	}
 
@@ -44,6 +45,7 @@ class UserController extends Controller
 	public function show($id)
 	{
 		$user = User::findOrFail($id);
+
 		return $this->respondSuccess(new UserResource($user));
 	}
 
@@ -62,6 +64,7 @@ class UserController extends Controller
 			'fixed_navbar' => true,
 			'fixed_footer' => false
 		]);
+
 		return $this->respondSuccess(new UserResource($user));
 	}
 
@@ -80,6 +83,7 @@ class UserController extends Controller
 			return $this->respondForbidden('You cannot update your own profile.');
 		}
 		$user->update($userData);
+
 		return $this->respondSuccess(new UserResource($user));
 	}
 
@@ -96,6 +100,7 @@ class UserController extends Controller
 			return $this->respondForbidden('You cannot delete your own profile.');
 		}
 		$user->delete();
+
 		return $this->respondSuccess(new UserResource($user));
 	}
 }
