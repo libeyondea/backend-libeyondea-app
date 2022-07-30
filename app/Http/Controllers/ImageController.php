@@ -25,8 +25,8 @@ class ImageController extends Controller
 		}
 
 		return $this->respondSuccess([
-			'image_name' => $imageName,
-			'image_url' => config('app.img_url') . '/' . $imageName
+			'name' => $imageName,
+			'url' => config('app.img_url') . '/' . $imageName
 		]);
 	}
 }
