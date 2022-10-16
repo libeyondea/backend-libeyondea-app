@@ -22,8 +22,18 @@ class CreateSettingsTable extends Migration
 				->constrained()
 				->cascadeOnUpdate()
 				->cascadeOnDelete();
-			$table->boolean('fixed_navbar')->default(true);
-			$table->boolean('fixed_footer')->default(false);
+			$table->enum('theme', [
+				'light',
+				'dark',
+				'retro',
+				'valentine',
+				'halloween',
+				'forest',
+				'dracula',
+				'night',
+				'coffee',
+				'winter'
+			])->default('light');
 			$table->timestamps();
 		});
 	}

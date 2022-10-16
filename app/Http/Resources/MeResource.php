@@ -27,8 +27,7 @@ class MeResource extends JsonResource
 			'updated_at' => $this->updated_at,
 			'setting' => [
 				'id' => $this->setting->id,
-				'fixed_navbar' => $this->setting->fixed_navbar,
-				'fixed_footer' => $this->setting->fixed_footer,
+				'theme' => $this->setting->theme,
 				'created_at' => $this->setting->created_at,
 				'updated_at' => $this->setting->updated_at,
 			],

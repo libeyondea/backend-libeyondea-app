@@ -24,11 +24,11 @@ class UserController extends Controller
 	public function index(Request $request)
 	{
 		$users = new User();
-		if ($request->filled('q')) {
-			$users = $users->where(DB::raw('CONCAT_WS(" ", first_name, last_name)'), 'LIKE', '%' . $request->q . '%')
-				->orWhere(DB::raw('CONCAT_WS(" ", last_name, first_name)'), 'LIKE', '%' . $request->q . '%')
-				->orWhere('user_name', 'LIKE', '%' . $request->q . '%')
-				->orWhere('email', 'LIKE', '%' . $request->q . '%');
+		if ($request->filled('keyword')) {
+			$users = $users->where(DB::raw('CONCAT_WS(" ", first_name, last_name)'), 'LIKE', '%' . $request->keyword . '%')
+				->orWhere(DB::raw('CONCAT_WS(" ", last_name, first_name)'), 'LIKE', '%' . $request->keyword . '%')
+				->orWhere('user_name', 'LIKE', '%' . $request->keyword . '%')
+				->orWhere('email', 'LIKE', '%' . $request->keyword . '%');
 		}
 		$usersCount = $users->get()->count();
 		$users = $users->pagination();
@@ -61,8 +61,7 @@ class UserController extends Controller
 		$user = User::create($userData);
 		Setting::create([
 			'user_id' => $user->id,
-			'fixed_navbar' => true,
-			'fixed_footer' => false
+			'theme' => 'light'
 		]);
 
 		return $this->respondSuccess(new UserResource($user));

@@ -11,18 +11,7 @@ class Setting extends Model
 
 	protected $fillable = [
 		'user_id',
-		'fixed_navbar',
-		'fixed_footer',
-	];
-
-	/**
-	 * The attributes that should be cast.
-	 *
-	 * @var array<string, string>
-	 */
-	protected $casts = [
-		'fixed_navbar' => 'boolean',
-		'fixed_footer' => 'boolean',
+		'theme',
 	];
 
 	public function user()

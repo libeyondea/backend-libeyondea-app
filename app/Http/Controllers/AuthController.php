@@ -31,6 +31,7 @@ class AuthController extends Controller
 		$tokenResult = $user->createToken('Personal Access Token');
 
 		return $this->respondSuccess([
+			'user' => new MeResource($user),
 			'token' => $tokenResult->plainTextToken
 		]);
 	}
@@ -41,8 +42,7 @@ class AuthController extends Controller
 		$user = User::create($userData);
 		Setting::create([
 			'user_id' => $user->id,
-			'fixed_navbar' => true,
-			'fixed_footer' => false
+			'theme' => 'light'
 		]);
 
 		return $this->respondSuccess(new MeResource($user));

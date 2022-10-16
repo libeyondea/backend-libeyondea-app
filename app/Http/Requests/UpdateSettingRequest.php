@@ -17,8 +17,7 @@ class UpdateSettingRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'fixed_navbar' => 'boolean',
-			'fixed_footer' => 'boolean',
+			'theme' => 'required|string|in:light,dark,retro,valentine,halloween,forest,dracula,night,coffee,winter',
 		];
 	}
 }
