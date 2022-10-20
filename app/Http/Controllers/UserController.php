@@ -24,11 +24,11 @@ class UserController extends Controller
 	public function index(Request $request)
 	{
 		$users = new User();
-		if ($request->filled('keyword')) {
-			$users = $users->where(DB::raw('CONCAT_WS(" ", first_name, last_name)'), 'LIKE', '%' . $request->keyword . '%')
-				->orWhere(DB::raw('CONCAT_WS(" ", last_name, first_name)'), 'LIKE', '%' . $request->keyword . '%')
-				->orWhere('user_name', 'LIKE', '%' . $request->keyword . '%')
-				->orWhere('email', 'LIKE', '%' . $request->keyword . '%');
+		if ($request->filled('search')) {
+			$users = $users->where(DB::raw('CONCAT_WS(" ", first_name, last_name)'), 'LIKE', '%' . $request->search . '%')
+				->orWhere(DB::raw('CONCAT_WS(" ", last_name, first_name)'), 'LIKE', '%' . $request->search . '%')
+				->orWhere('user_name', 'LIKE', '%' . $request->search . '%')
+				->orWhere('email', 'LIKE', '%' . $request->search . '%');
 		}
 		$usersCount = $users->get()->count();
 		$users = $users->pagination();
