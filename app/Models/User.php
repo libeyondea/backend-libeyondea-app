@@ -27,6 +27,7 @@ class User extends Authenticatable
 		'password',
 		'role',
 		'actived',
+		'action'
 	];
 
 	/**
@@ -47,11 +48,12 @@ class User extends Authenticatable
 	protected $casts = [
 		'email_verified_at' => 'datetime',
 		'actived' => 'boolean',
+		'action' => 'boolean',
 	];
 
-	public function getAvatarUrlAttribute()
+	public function getAvatarAttribute()
 	{
-		return $this->avatar ? config('app.img_url') . '/' . $this->avatar : config('app.img_url') . '/' . 'default-avatar.png';
+		return $this->attributes['avatar'] ? config('app.img_url') . '/' . $this->attributes['avatar'] : config('app.img_url') . '/' . 'default-avatar.png';
 	}
 
 	public function setPasswordAttribute($password)
