@@ -29,6 +29,8 @@ Route::group(['middleware' => ['auth:sanctum', 'status:active']], function () {
 	Route::get('/profile', [ProfileController::class, 'show']);
 	Route::put('/profile', [ProfileController::class, 'update']);
 
+	Route::get('/dashboard', [DashboardController::class, 'show'])->middleware('role:owner');;
+
 	Route::get('/users', [UserController::class, 'index'])->middleware('role:owner');
 	Route::get('/users/{id}', [UserController::class, 'show'])->middleware('role:owner');
 	Route::post('/users', [UserController::class, 'store'])->middleware('role:owner');
@@ -37,8 +39,6 @@ Route::group(['middleware' => ['auth:sanctum', 'status:active']], function () {
 
 	Route::get('/settings', [SettingController::class, 'show']);
 	Route::put('/settings', [SettingController::class, 'update']);
-
-	Route::get('/dashboard', [DashboardController::class, 'show']);
 
 	Route::post('/images/upload', [ImageController::class, 'upload']);
 });
