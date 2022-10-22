@@ -22,7 +22,7 @@ class MeResource extends JsonResource
 			'avatar' => $this->avatar,
 			'email' => $this->email,
 			'role' => $this->role,
-			'actived' => $this->actived,
+			'status' => $this->status,
 			'created_at' => $this->created_at,
 			'updated_at' => $this->updated_at,
 			'setting' => [

@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/auth/signin', [AuthController::class, 'signIn']);
 Route::post('/auth/signup', [AuthController::class, 'signUp']);
 
-Route::group(['middleware' => ['auth:sanctum', 'actived']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'status:active']], function () {
 	Route::get('/auth/me', [AuthController::class, 'me']);
 	Route::post('/auth/signout', [AuthController::class, 'signOut']);
 

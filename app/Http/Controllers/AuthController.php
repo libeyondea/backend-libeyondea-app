@@ -22,8 +22,8 @@ class AuthController extends Controller
 				'user_name' => 'User name or password is incorrect.',
 				'password' => 'User name or password is incorrect.'
 			]);
-		} else if (!auth()->user()->actived) {
-			return $this->respondForbidden('Your account is not actived.');
+		} else if (!auth()->user()->status) {
+			return $this->respondForbidden('Your account has not been activated.');
 		}
 
 		/** @var \App\Models\User $user **/
@@ -38,7 +38,7 @@ class AuthController extends Controller
 
 	public function signUp(SignUpAuthRequest $request)
 	{
-		$userData = $request->merge(['role' => 'member', 'avatar' => null, 'actived' => false])->all();
+		$userData = $request->merge(['role' => 'member', 'avatar' => null, 'status' => false])->all();
 		$user = User::create($userData);
 		Setting::create([
 			'user_id' => $user->id,

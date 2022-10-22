@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
 			'email' => 'libeyondea@gmail.com',
 			'password' => 'libeyondea',
 			'role' => 'owner',
-			'actived' => true,
+			'status' => true,
 		]);
 		User::factory(50)->create();
 	}

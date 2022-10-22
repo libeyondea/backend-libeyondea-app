@@ -66,6 +66,6 @@ class Kernel extends HttpKernel
 
 		// Custom middleware
 		'role' => \App\Http\Middleware\RoleCheck::class,
-		'actived' => \App\Http\Middleware\ActivedCheck::class,
+		'status' => \App\Http\Middleware\StatusCheck::class,
 	];
 }

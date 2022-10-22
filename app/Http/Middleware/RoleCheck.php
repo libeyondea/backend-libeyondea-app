@@ -17,13 +17,13 @@ class RoleCheck
 	 * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
 	 * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
 	 */
-	public function handle($request, Closure $next, $role)
+	public function handle($request, Closure $next, $roles)
 	{
 		if (Auth::guest()) {
 			return $this->respondUnauthorized();
 		}
 
-		$roles = is_array($role) ? $role : explode('|', $role);
+		$roles = is_array($roles) ? $roles : explode('|', $roles);
 
 		if (!collect($roles)->contains(Auth::user()->role)) {
 			return $this->respondForbidden();
