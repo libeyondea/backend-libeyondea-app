@@ -27,7 +27,6 @@ class User extends Authenticatable
 		'password',
 		'role',
 		'actived',
-		'action'
 	];
 
 	/**
@@ -48,7 +47,6 @@ class User extends Authenticatable
 	protected $casts = [
 		'email_verified_at' => 'datetime',
 		'actived' => 'boolean',
-		'action' => 'boolean',
 	];
 
 	public function getAvatarAttribute()

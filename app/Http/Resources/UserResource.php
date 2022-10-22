@@ -25,7 +25,6 @@ class UserResource extends JsonResource
 			'actived' => $this->actived,
 			'created_at' => $this->created_at,
 			'updated_at' => $this->updated_at,
-			'action' => $this->action,
 		];
 	}
 }

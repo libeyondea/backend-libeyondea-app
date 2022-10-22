@@ -25,7 +25,6 @@ class CreateUsersTable extends Migration
 			$table->rememberToken();
 			$table->enum('role', ['owner', 'admin', 'moderator', 'member'])->default('member');
 			$table->boolean('actived')->default(false);
-			$table->boolean('action')->default(false);
 			$table->timestamps();
 		});
 	}
