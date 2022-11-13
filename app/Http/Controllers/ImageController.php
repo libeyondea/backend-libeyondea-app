@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UploadImageRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Traits\ApiResponser;
+use App\Utils\Logger;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -11,22 +15,35 @@ class ImageController extends Controller
 {
 	use ApiResponser;
 
-	/**
-	 * Upload image to storage and return the path to the image.
-	 *
-	 * @param App\Http\Requests\UploadImageRequest $request
-	 * @return \Illuminate\Http\JsonResponse
-	 */
-	public function upload(UploadImageRequest $request)
+	public function upload(Request $request): JsonResponse
 	{
-		if ($request->hasfile('image')) {
-			$imageName = Str::random(66) . '.' . $request->file('image')->extension();
-			Storage::disk('img')->put($imageName, file_get_contents($request->file('image')));
-		}
+		try {
+			$validator = Validator::make($request->all(), [
+				'image' => 'required|image|mimes:jpeg,jpg,png,gif|max:2048',
+			]);
 
-		return $this->respondSuccess([
-			'name' => $imageName,
-			'url' => config('app.img_url') . '/' . $imageName
-		]);
+			if ($validator->fails()) {
+				return $this->respondBadRequest(
+					'The given data was invalid.',
+					$validator
+						->validator()
+						->errors()
+						->messages()
+				);
+			}
+
+			if ($request->hasfile('image')) {
+				$imageName = Str::random(66) . '.' . $request->file('image')->extension();
+				Storage::disk('img')->put($imageName, file_get_contents($request->file('image')));
+			}
+
+			return $this->respondSuccess([
+				'name' => $imageName,
+				'url' => config('app.img_url') . '/' . $imageName,
+			]);
+		} catch (Exception $e) {
+			Logger::emergency($e);
+			return $this->respondError($e->getMessage());
+		}
 	}
 }

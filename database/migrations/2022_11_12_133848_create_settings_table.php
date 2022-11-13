@@ -5,8 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSettingsTable extends Migration
-{
+return new class extends Migration {
 	/**
 	 * Run the migrations.
 	 *
@@ -22,18 +21,7 @@ class CreateSettingsTable extends Migration
 				->constrained()
 				->cascadeOnUpdate()
 				->cascadeOnDelete();
-			$table->enum('theme', [
-				'light',
-				'dark',
-				'retro',
-				'valentine',
-				'halloween',
-				'forest',
-				'dracula',
-				'night',
-				'coffee',
-				'winter'
-			])->default('light');
+			$table->enum('theme', ['light', 'dark', 'retro', 'valentine', 'halloween', 'forest', 'dracula', 'night', 'coffee', 'winter'])->default('light');
 			$table->timestamps();
 		});
 	}
@@ -47,4 +35,4 @@ class CreateSettingsTable extends Migration
 	{
 		Schema::dropIfExists('settings');
 	}
-}
+};

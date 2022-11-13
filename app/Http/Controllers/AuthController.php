@@ -2,65 +2,131 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SignInAuthRequest;
-use App\Http\Requests\SignUpAuthRequest;
-use App\Http\Resources\MeResource;
+use Illuminate\Http\Request;
 use App\Models\Setting;
 use App\Models\User;
 use App\Traits\ApiResponser;
+use App\Transformers\MeTransformer;
+use App\Utils\Logger;
+use Exception;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
 	use ApiResponser;
 
-	public function signIn(SignInAuthRequest $request)
+	public function signIn(Request $request)
 	{
-		$credentials = $request->only(['user_name', 'password']);
+		try {
+			$credentials = $request->only(['user_name', 'password']);
 
-		if (!auth()->attempt($credentials)) {
-			return $this->respondBadRequest('Invalid credentials.', [
-				'user_name' => 'User name or password is incorrect.',
-				'password' => 'User name or password is incorrect.'
+			DB::beginTransaction();
+			$user = new User($credentials);
+
+			if ($user->isInvalidFor('SIGNIN')) {
+				return $this->respondBadRequest(
+					'The given data was invalid.',
+					$user
+						->validator()
+						->errors()
+						->messages()
+				);
+			}
+
+			if (!auth()->attempt($credentials)) {
+				return $this->respondBadRequest('Invalid credentials.', [
+					'user_name' => 'User name or password is incorrect.',
+					'password' => 'User name or password is incorrect.',
+				]);
+			}
+
+			if (!auth()->user()->status) {
+				return $this->respondForbidden('Your account has not been activated.');
+			}
+
+			/** @var \App\Models\User $user **/
+			$user = auth()->user();
+			$tokenResult = $user->createToken('Personal Access Token');
+			DB::commit();
+
+			return $this->respondSuccess([
+				'user' => fractal($user, new MeTransformer())->toArray(),
+				'token' => $tokenResult->plainTextToken,
 			]);
-		} else if (!auth()->user()->status) {
-			return $this->respondForbidden('Your account has not been activated.');
+		} catch (Exception $e) {
+			DB::rollBack();
+			Logger::emergency($e);
+			return $this->respondError($e->getMessage());
 		}
-
-		/** @var \App\Models\User $user **/
-		$user = auth()->user();
-		$tokenResult = $user->createToken('Personal Access Token');
-
-		return $this->respondSuccess([
-			'user' => new MeResource($user),
-			'token' => $tokenResult->plainTextToken
-		]);
 	}
 
-	public function signUp(SignUpAuthRequest $request)
+	public function signUp(Request $request)
 	{
-		$userData = $request->merge(['role' => 'member', 'avatar' => null, 'status' => false])->all();
-		$user = User::create($userData);
-		Setting::create([
-			'user_id' => $user->id,
-			'theme' => 'light'
-		]);
+		try {
+			$attrs = $request->all();
 
-		return $this->respondSuccess(new MeResource($user));
+			DB::beginTransaction();
+			$user = new User($attrs);
+
+			if ($user->isInvalidFor('SIGNUP')) {
+				return $this->respondBadRequest(
+					'The given data was invalid.',
+					$user
+						->validator()
+						->errors()
+						->messages()
+				);
+			}
+
+			$user->first_name = $attrs['first_name'];
+			$user->last_name = $attrs['last_name'];
+			$user->user_name = $attrs['user_name'];
+			$user->email = $attrs['email'];
+			$user->password = bcrypt($attrs['password']);
+			$user->avatar = 'default-avatar.png';
+			$user->save();
+
+			Setting::create([
+				'user_id' => $user->id,
+				'theme' => 'light',
+			]);
+			DB::commit();
+
+			return $this->respondSuccess(fractal($user, new MeTransformer())->toArray());
+		} catch (Exception $e) {
+			DB::rollBack();
+			Logger::emergency($e);
+			return $this->respondError($e->getMessage());
+		}
 	}
 
 	public function signOut()
 	{
-		/** @var \App\Models\User $user **/
-		$user = auth()->user();
-		$user->tokens()->delete();
+		try {
+			DB::beginTransaction();
+			/** @var \App\Models\User $user **/
+			$user = auth()->user();
+			$user->tokens()->delete();
+			DB::commit();
 
-		return $this->respondSuccess();
+			return $this->respondSuccess();
+		} catch (Exception $e) {
+			DB::rollBack();
+			Logger::emergency($e);
+			return $this->respondError($e->getMessage());
+		}
 	}
 
 	public function me()
 	{
-		$user = User::findOrFail(auth()->user()->id);
+		try {
+			$user = User::findOrFail(auth()->user()->id);
 
-		return $this->respondSuccess(new MeResource($user));
+			return $this->respondSuccess(fractal($user, new MeTransformer())->toArray());
+		} catch (Exception $e) {
+			Logger::emergency($e);
+			return $this->respondError($e->getMessage());
+		}
 	}
 }

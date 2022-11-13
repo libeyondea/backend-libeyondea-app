@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use App\Traits\ApiResponser;
 
 class StatusCheck
@@ -15,9 +16,10 @@ class StatusCheck
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+	 * @param  string  $status
 	 * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
 	 */
-	public function handle($request, Closure $next, $status)
+	public function handle(Request $request, Closure $next, $status)
 	{
 		if (Auth::guest()) {
 			return $this->respondUnauthorized();
@@ -27,7 +29,7 @@ class StatusCheck
 			if (!Auth::user()->status) {
 				return $this->respondForbidden('Your account has not been activated.');
 			}
-		} else if ($status === 'deactive') {
+		} elseif ($status === 'deactive') {
 			if (Auth::user()->status) {
 				return $this->respondForbidden('Your account has been activated.');
 			}
