@@ -69,7 +69,7 @@ class User extends Authenticatable
 				'user_name' => 'required|string|min:3|max:20|unique:users,user_name,' . $this->id,
 				'email' => 'required|string|email|max:255|unique:users,email,' . $this->id,
 				'password' => 'string|min:6|max:66',
-				'avatar' => 'nullable|string|max:255',
+				'avatar' => 'string|max:255',
 			],
 			'SIGNIN' => [
 				'user_name' => 'required|string|min:3|max:20',
