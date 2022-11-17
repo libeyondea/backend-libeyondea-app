@@ -19,12 +19,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/auth/signin', [AuthController::class, 'signIn']);
-Route::post('/auth/signup', [AuthController::class, 'signUp']);
+Route::post('/signin', [AuthController::class, 'signIn']);
+Route::post('/signup', [AuthController::class, 'signUp']);
 
 Route::group(['middleware' => ['auth:sanctum', 'status:active']], function () {
-	Route::get('/auth/me', [AuthController::class, 'me']);
-	Route::post('/auth/signout', [AuthController::class, 'signOut']);
+	Route::get('/me', [AuthController::class, 'me']);
+	Route::post('/signout', [AuthController::class, 'signOut']);
 
 	Route::get('/profile', [ProfileController::class, 'show']);
 	Route::put('/profile', [ProfileController::class, 'update']);
