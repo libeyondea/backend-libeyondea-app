@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Models\Setting;
 use App\Models\User;
 use App\Traits\ApiResponser;
@@ -10,13 +11,12 @@ use App\Transformers\MeTransformer;
 use App\Utils\Logger;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
 	use ApiResponser;
 
-	public function signIn(Request $request)
+	public function signIn(Request $request): JsonResponse
 	{
 		try {
 			$credentials = $request->only(['user_name', 'password']);
@@ -61,7 +61,7 @@ class AuthController extends Controller
 		}
 	}
 
-	public function signUp(Request $request)
+	public function signUp(Request $request): JsonResponse
 	{
 		try {
 			$attrs = $request->all();
@@ -83,6 +83,8 @@ class AuthController extends Controller
 			$user->last_name = $attrs['last_name'];
 			$user->user_name = $attrs['user_name'];
 			$user->email = $attrs['email'];
+			$user->role = 'member';
+			$user->status = false;
 			$user->password = bcrypt($attrs['password']);
 			$user->avatar = 'default-avatar.png';
 			$user->save();
@@ -101,7 +103,7 @@ class AuthController extends Controller
 		}
 	}
 
-	public function signOut()
+	public function signOut(): JsonResponse
 	{
 		try {
 			DB::beginTransaction();
@@ -118,7 +120,7 @@ class AuthController extends Controller
 		}
 	}
 
-	public function me()
+	public function me(): JsonResponse
 	{
 		try {
 			$user = User::findOrFail(auth()->user()->id);

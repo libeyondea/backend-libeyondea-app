@@ -8,13 +8,14 @@ use App\Traits\ApiResponser;
 use App\Transformers\ProfileTransformer;
 use App\Utils\Logger;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
 	use ApiResponser;
 
-	public function show()
+	public function show(): JsonResponse
 	{
 		try {
 			$user = User::findOrFail(auth()->user()->id);
@@ -26,7 +27,7 @@ class ProfileController extends Controller
 		}
 	}
 
-	public function update(Request $request)
+	public function update(Request $request): JsonResponse
 	{
 		try {
 			$attrs = $request->all();
@@ -48,12 +49,15 @@ class ProfileController extends Controller
 			$user->last_name = $attrs['last_name'];
 			$user->user_name = $attrs['user_name'];
 			$user->email = $attrs['email'];
+
 			if (isset($attrs['password'])) {
 				$user->password = $attrs['password'];
 			}
+
 			if (isset($attrs['avatar'])) {
 				$user->avatar = $attrs['avatar'];
 			}
+
 			$user->save();
 			DB::commit();
 

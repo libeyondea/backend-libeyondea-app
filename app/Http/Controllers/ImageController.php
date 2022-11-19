@@ -9,7 +9,6 @@ use App\Utils\Logger;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class ImageController extends Controller
 {
@@ -33,14 +32,18 @@ class ImageController extends Controller
 			}
 
 			if ($request->hasfile('image')) {
-				$imageName = Str::random(66) . '.' . $request->file('image')->extension();
-				Storage::disk('img')->put($imageName, file_get_contents($request->file('image')));
+				$file = $request->file('image');
+				$imageName = time() . '.' . $file->extension();
+				$imageContent = $file->getContent();
+				Storage::disk('image')->put($imageName, $imageContent);
+
+				return $this->respondSuccess([
+					'name' => $imageName,
+					'url' => config('app.image_url') . '/' . $imageName,
+				]);
 			}
 
-			return $this->respondSuccess([
-				'name' => $imageName,
-				'url' => config('app.img_url') . '/' . $imageName,
-			]);
+			return $this->respondInternalError();
 		} catch (Exception $e) {
 			Logger::emergency($e);
 			return $this->respondError($e->getMessage());

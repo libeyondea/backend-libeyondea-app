@@ -7,6 +7,7 @@ use App\Traits\ApiResponser;
 use App\Transformers\SettingTransformer;
 use App\Utils\Logger;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,7 +15,7 @@ class SettingController extends Controller
 {
 	use ApiResponser;
 
-	public function show()
+	public function show(): JsonResponse
 	{
 		try {
 			$setting = Setting::where('user_id', auth()->user()->id)->firstOrFail();
@@ -26,7 +27,7 @@ class SettingController extends Controller
 		}
 	}
 
-	public function update(Request $request)
+	public function update(Request $request): JsonResponse
 	{
 		try {
 			$attrs = $request->all();

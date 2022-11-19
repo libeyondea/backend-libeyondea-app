@@ -57,7 +57,7 @@ return [
 
 	'asset_url' => env('ASSET_URL'),
 
-	'img_url' => env('IMG_URL', 'http://localhost/images'),
+	'image_url' => env('IMAGE_URL', 'http://localhost/images'),
 
 	/*
     |--------------------------------------------------------------------------

@@ -6,12 +6,13 @@ use App\Models\User;
 use App\Traits\ApiResponser;
 use App\Utils\Logger;
 use Exception;
+use Illuminate\Http\JsonResponse;
 
 class DashboardController extends Controller
 {
 	use ApiResponser;
 
-	public function show()
+	public function show(): JsonResponse
 	{
 		try {
 			$dashboard = [

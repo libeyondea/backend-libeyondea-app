@@ -54,9 +54,9 @@ return [
 			'throw' => false,
 		],
 
-		'img' => [
+		'image' => [
 			'driver' => 'local',
-			'root' => public_path(env('IMG_FOLDER', 'images')),
+			'root' => public_path(env('IMAGE_FOLDER', 'images')),
 		],
 	],
 
