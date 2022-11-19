@@ -3,33 +3,5 @@
 	"functions": {
 		"api/index.php": { "runtime": "vercel-php@0.5.2" }
 	},
-	"rewrites": [{ "source": "/(.*)", "destination": "/api/index.php" }],
-	"env": {
-		"APP_NAME": "Libeyondea",
-		"APP_ENV": "production",
-		"APP_KEY": "base64:2Yilj/Kaoptbd4do1CaCOw7N2yFO5LODm6O7s87J5e0=",
-		"APP_DEBUG": "true",
-		"APP_URL": "https://backend-libeyondea-app.vercel.app",
-		"IMAGE_URL": "https://backend-libeyondea-app.vercel.app/images",
-		"IMAGE_FOLDER": "images",
-		"DB_CONNECTION": "mysql",
-		"DB_HOST": "eporqep6b4b8ql12.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
-		"DB_PORT": "3306",
-		"DB_DATABASE": "qhf394x8jg90rwou",
-		"DB_USERNAME": "dtm6tix17qrdgsim",
-		"DB_PASSWORD": "vabwpqcro3jdt5bx",
-
-		"VERCEL_DEMO_MODE": "true",
-		"APP_CONFIG_CACHE": "/tmp/config.php",
-		"APP_EVENTS_CACHE": "/tmp/events.php",
-		"APP_PACKAGES_CACHE": "/tmp/packages.php",
-		"APP_ROUTES_CACHE": "/tmp/routes.php",
-		"APP_SERVICES_CACHE": "/tmp/services.php",
-		"CACHE_DRIVER": "array",
-		"LOG_CHANNEL": "stderr",
-		"SESSION_DRIVER": "array",
-		"VIEW_COMPILED_PATH": "/tmp/views",
-		"SSR_TEMP_PATH": "/tmp/ssr",
-		"NODE_PATH": "node"
-	}
+	"rewrites": [{ "source": "/(.*)", "destination": "/api/index.php" }]
 }
