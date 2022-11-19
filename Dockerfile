@@ -14,9 +14,9 @@ ENV APP_NAME=Libeyondea
 ENV APP_ENV=production
 ENV APP_KEY=base64:2Yilj/Kaoptbd4do1CaCOw7N2yFO5LODm6O7s87J5e0=
 ENV APP_DEBUG=false
-ENV APP_URL=https://backend-libeyondea-app.onrender.com
+ENV APP_URL=https://server.libeyondea.co
 
-ENV IMAGE_URL=https://backend-libeyondea-app.onrender.com/images
+ENV IMAGE_URL=https://server.libeyondea.co/images
 ENV IMAGE_FOLDER=images
 
 ENV LOG_CHANNEL=stderr
