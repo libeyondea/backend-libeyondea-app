@@ -1,14 +1,12 @@
 {
-	"outputDirectory": ".",
 	"functions": {
 		"api/index.php": {
 			"runtime": "vercel-php@0.5.2"
 		}
 	},
-	"rewrites": [
-		{
-			"source": "/(.*)",
-			"destination": "/api/index.php"
-		}
-	]
+	"routes": [
+		{ "src": "/(.*)", "dest": "/api/index.php" },
+		{ "src": "/api/(.*)", "dest": "/api/index.php" }
+	],
+	"env": {}
 }
