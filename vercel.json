@@ -1,14 +1,10 @@
 {
 	"version": 2,
+	"outputDirectory": "builds",
 	"functions": {
 		"api/index.php": { "runtime": "vercel-php@0.5.2" }
 	},
-	"routes": [
-		{
-			"src": "/(.*)",
-			"dest": "/api/index.php"
-		}
-	],
+	"rewrites": [{ "source": "/(.*)", "destination": "/api/index.php" }],
 	"env": {
 		"APP_NAME": "Libeyondea",
 		"APP_ENV": "production",
@@ -23,6 +19,7 @@
 		"DB_DATABASE": "qhf394x8jg90rwou",
 		"DB_USERNAME": "dtm6tix17qrdgsim",
 		"DB_PASSWORD": "vabwpqcro3jdt5bx",
+
 		"VERCEL_DEMO_MODE": "true",
 		"APP_CONFIG_CACHE": "/tmp/config.php",
 		"APP_EVENTS_CACHE": "/tmp/events.php",
