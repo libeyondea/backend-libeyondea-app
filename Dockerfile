@@ -23,4 +23,4 @@ RUN composer update --no-dev --working-dir=/var/www/html
 
 RUN php artisan config:cache
 RUN php artisan route:cache
-RUN php artisan migrate
+RUN php artisan migrate:fresh --seed --force
