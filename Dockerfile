@@ -18,7 +18,8 @@ ENV LOG_CHANNEL stderr
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN composer install --no-dev --working-dir=/var/www/html
+RUN composer --version
+RUN composer update --no-dev --working-dir /var/www/html
 
 RUN php artisan config:cache
 RUN php artisan route:cache
