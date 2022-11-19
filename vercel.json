@@ -5,10 +5,10 @@
 			"runtime": "vercel-php@0.5.2"
 		}
 	},
-	"routes": [
+	"rewrites": [
 		{
-			"src": "/(.*)",
-			"dest": "/api/index.php"
+			"source": "/(.*)",
+			"destination": "/api/index.php"
 		}
 	],
 	"env": {
