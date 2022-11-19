@@ -10,9 +10,18 @@ ENV RUN_SCRIPTS 1
 ENV REAL_IP_HEADER 1
 
 # Laravel config
-ENV APP_ENV production
-ENV APP_DEBUG false
-ENV LOG_CHANNEL stderr
+ENV APP_NAME=Libeyondea
+ENV APP_ENV=production
+ENV APP_KEY=base64:2Yilj/Kaoptbd4do1CaCOw7N2yFO5LODm6O7s87J5e0=
+ENV APP_DEBUG=false
+ENV APP_URL=https://backend-libeyondea-app.onrender.com
+
+ENV IMAGE_URL=https://backend-libeyondea-app.onrender.com/images
+ENV IMAGE_FOLDER=images
+
+ENV LOG_CHANNEL=stderr
+ENV LOG_DEPRECATIONS_CHANNEL=null
+ENV LOG_LEVEL=debug
 
 ENV DB_CONNECTION=mysql
 ENV DB_HOST=bi7jkvhxjt2jzlvafkts-mysql.services.clever-cloud.com
