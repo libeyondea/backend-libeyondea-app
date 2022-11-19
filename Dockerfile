@@ -14,6 +14,13 @@ ENV APP_ENV production
 ENV APP_DEBUG false
 ENV LOG_CHANNEL stderr
 
+ENV DB_CONNECTION=mysql
+ENV DB_HOST=bi7jkvhxjt2jzlvafkts-mysql.services.clever-cloud.com
+ENV DB_PORT=3306
+ENV DB_DATABASE=bi7jkvhxjt2jzlvafkts
+ENV DB_USERNAME=uhbkyz2ikku0mova
+ENV DB_PASSWORD=CtySv9pDaBAPelpY60cf
+
 # Allow composer to run as root
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
