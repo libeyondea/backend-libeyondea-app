@@ -57,7 +57,7 @@ class AuthController extends Controller
 		} catch (Exception $e) {
 			DB::rollBack();
 			Logger::emergency($e);
-			return $this->respondError($e->getMessage());
+			return $this->respondInternalError($e->getMessage());
 		}
 	}
 
@@ -99,7 +99,7 @@ class AuthController extends Controller
 		} catch (Exception $e) {
 			DB::rollBack();
 			Logger::emergency($e);
-			return $this->respondError($e->getMessage());
+			return $this->respondInternalError($e->getMessage());
 		}
 	}
 
@@ -116,7 +116,7 @@ class AuthController extends Controller
 		} catch (Exception $e) {
 			DB::rollBack();
 			Logger::emergency($e);
-			return $this->respondError($e->getMessage());
+			return $this->respondInternalError($e->getMessage());
 		}
 	}
 
@@ -128,7 +128,7 @@ class AuthController extends Controller
 			return $this->respondSuccess(fractal($user, new MeTransformer())->toArray());
 		} catch (Exception $e) {
 			Logger::emergency($e);
-			return $this->respondError($e->getMessage());
+			return $this->respondInternalError($e->getMessage());
 		}
 	}
 }

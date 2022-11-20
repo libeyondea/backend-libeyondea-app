@@ -24,7 +24,7 @@ class DashboardController extends Controller
 			return $this->respondSuccess($dashboard);
 		} catch (Exception $e) {
 			Logger::emergency($e);
-			return $this->respondError($e->getMessage());
+			return $this->respondInternalError($e->getMessage());
 		}
 	}
 }

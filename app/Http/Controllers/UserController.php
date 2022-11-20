@@ -42,7 +42,7 @@ class UserController extends Controller
 			return $this->respondSuccessWithList($data, $columns, $total);
 		} catch (Exception $e) {
 			Logger::emergency($e);
-			return $this->respondError($e->getMessage());
+			return $this->respondInternalError($e->getMessage());
 		}
 	}
 
@@ -54,7 +54,7 @@ class UserController extends Controller
 			return $this->respondSuccess(fractal($user, new UserTransformer())->toArray());
 		} catch (Exception $e) {
 			Logger::emergency($e);
-			return $this->respondError($e->getMessage());
+			return $this->respondInternalError($e->getMessage());
 		}
 	}
 
@@ -96,7 +96,7 @@ class UserController extends Controller
 		} catch (Exception $e) {
 			DB::rollBack();
 			Logger::emergency($e);
-			return $this->respondError($e->getMessage());
+			return $this->respondInternalError($e->getMessage());
 		}
 	}
 
@@ -139,7 +139,7 @@ class UserController extends Controller
 		} catch (Exception $e) {
 			DB::rollBack();
 			Logger::emergency($e);
-			return $this->respondError($e->getMessage());
+			return $this->respondInternalError($e->getMessage());
 		}
 	}
 
@@ -158,7 +158,7 @@ class UserController extends Controller
 		} catch (Exception $e) {
 			DB::rollBack();
 			Logger::emergency($e);
-			return $this->respondError($e->getMessage());
+			return $this->respondInternalError($e->getMessage());
 		}
 	}
 }

@@ -23,7 +23,7 @@ class SettingController extends Controller
 			return $this->respondSuccess(fractal($setting, new SettingTransformer())->toArray());
 		} catch (Exception $e) {
 			Logger::emergency($e);
-			return $this->respondError($e->getMessage());
+			return $this->respondInternalError($e->getMessage());
 		}
 	}
 
@@ -53,7 +53,7 @@ class SettingController extends Controller
 		} catch (Exception $e) {
 			DB::rollBack();
 			Logger::emergency($e);
-			return $this->respondError($e->getMessage());
+			return $this->respondInternalError($e->getMessage());
 		}
 	}
 }

@@ -23,7 +23,7 @@ class ProfileController extends Controller
 			return $this->respondSuccess(fractal($user, new ProfileTransformer())->toArray());
 		} catch (Exception $e) {
 			Logger::emergency($e);
-			return $this->respondError($e->getMessage());
+			return $this->respondInternalError($e->getMessage());
 		}
 	}
 
@@ -65,7 +65,7 @@ class ProfileController extends Controller
 		} catch (Exception $e) {
 			DB::rollBack();
 			Logger::emergency($e);
-			return $this->respondError($e->getMessage());
+			return $this->respondInternalError($e->getMessage());
 		}
 	}
 }

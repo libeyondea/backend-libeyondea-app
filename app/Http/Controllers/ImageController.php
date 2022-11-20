@@ -46,7 +46,7 @@ class ImageController extends Controller
 			return $this->respondInternalError();
 		} catch (Exception $e) {
 			Logger::emergency($e);
-			return $this->respondError($e->getMessage());
+			return $this->respondInternalError($e->getMessage());
 		}
 	}
 }
