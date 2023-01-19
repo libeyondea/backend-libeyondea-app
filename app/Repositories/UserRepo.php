@@ -17,19 +17,11 @@ class UserRepo extends AbstractBaseRepo
 	public function list(Request $request): array
 	{
 		try {
-			$search = $request->get('search', '');
-
-			$queryBuilder = new User();
-			if (!empty($search)) {
-				$queryBuilder = $queryBuilder
-					->where(DB::raw('CONCAT_WS(" ", first_name, last_name)'), 'like', '%' . $search . '%')
-					->orWhere(DB::raw('CONCAT_WS(" ", last_name, first_name)'), 'like', '%' . $search . '%')
-					->orWhere('first_name', 'like', '%' . $search . '%')
-					->orWhere('last_name', 'like', '%' . $search . '%')
-					->orWhere('user_name', 'like', '%' . $search . '%')
-					->orWhere('role', 'like', '%' . $search . '%')
-					->orWhere('email', 'like', '%' . $search . '%');
+			if (!$this->isActive()) {
+				return $this->errorActive();
 			}
+
+			$queryBuilder = User::query();
 
 			$users = $queryBuilder->paginate();
 
