@@ -34,7 +34,7 @@ class SettingTransformer extends TransformerAbstract
 	{
 		return [
 			'id' => $setting->id,
-			'theme' => $setting->theme,
+			'language' => $setting->language,
 			'created_at' => $setting->created_at,
 			'updated_at' => $setting->updated_at,
 		];

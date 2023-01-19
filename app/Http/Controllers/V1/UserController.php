@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Http\JsonResponse;
 use App\Models\Setting;
 use App\Models\User;
+use App\Repositories\UserRepo;
 use App\Traits\ApiResponsor;
 use App\Transformers\UserTransformer;
 use App\Utils\Logger;
@@ -17,33 +19,17 @@ class UserController extends Controller
 {
 	use ApiResponsor;
 
+	protected $userRepo;
+
+	public function __construct(UserRepo $userRepo)
+	{
+		$this->userRepo = $userRepo;
+	}
+
 	public function index(Request $request): JsonResponse
 	{
-		try {
-			$search = $request->get('search', '');
-
-			$queryBuilder = new User();
-			if (!empty($search)) {
-				$queryBuilder = $queryBuilder
-					->where(DB::raw('CONCAT_WS(" ", first_name, last_name)'), 'like', '%' . $search . '%')
-					->orWhere(DB::raw('CONCAT_WS(" ", last_name, first_name)'), 'like', '%' . $search . '%')
-					->orWhere('first_name', 'like', '%' . $search . '%')
-					->orWhere('last_name', 'like', '%' . $search . '%')
-					->orWhere('user_name', 'like', '%' . $search . '%')
-					->orWhere('role', 'like', '%' . $search . '%')
-					->orWhere('email', 'like', '%' . $search . '%');
-			}
-			$users = $queryBuilder->pagination();
-
-			$data = fractal($users->items(), new UserTransformer())->toArray();
-			$columns = UserTransformer::columns;
-			$total = $users->total();
-
-			return $this->respondSuccessWithList($data, $columns, $total);
-		} catch (Exception $e) {
-			Logger::emergency($e);
-			return $this->respondInternalError($e->getMessage());
-		}
+		$results = $this->userRepo->list($request);
+		return response()->json($results, $results['code']);
 	}
 
 	public function show(int $id): JsonResponse

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Models\Setting;
 use App\Models\User;
-use App\Traits\ApiResponser;
+use App\Traits\ApiResponsor;
 use App\Transformers\MeTransformer;
 use App\Utils\Logger;
 use Exception;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
-	use ApiResponser;
+	use ApiResponsor;
 
 	public function signIn(Request $request): JsonResponse
 	{

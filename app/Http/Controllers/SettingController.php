@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Setting;
-use App\Traits\ApiResponser;
+use App\Traits\ApiResponsor;
 use App\Transformers\SettingTransformer;
 use App\Utils\Logger;
 use Exception;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class SettingController extends Controller
 {
-	use ApiResponser;
+	use ApiResponsor;
 
 	public function show(): JsonResponse
 	{

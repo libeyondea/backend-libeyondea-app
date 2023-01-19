@@ -5,11 +5,11 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Traits\ApiResponser;
+use App\Traits\ApiResponsor;
 
 class RoleCheck
 {
-	use ApiResponser;
+	use ApiResponsor;
 
 	/**
 	 * Handle an incoming request.
@@ -22,13 +22,13 @@ class RoleCheck
 	public function handle(Request $request, Closure $next, $roles)
 	{
 		if (Auth::guest()) {
-			return $this->respondUnauthorized();
+			return $this->responseUnauthorized();
 		}
 
 		$roles = is_array($roles) ? $roles : explode('|', $roles);
 
 		if (!collect($roles)->contains(Auth::user()->role)) {
-			return $this->respondForbidden();
+			return $this->responseForbidden();
 		}
 
 		return $next($request);

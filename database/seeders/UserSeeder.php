@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
 			'email' => 'libeyondea@gmail.com',
 			'password' => bcrypt('libeyondea'),
 			'role' => 'owner',
-			'status' => true,
+			'status' => 1,
 			'avatar' => 'default-avatar.png',
 		]);
 		User::factory(50)->create();

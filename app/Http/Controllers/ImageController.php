@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Traits\ApiResponser;
+use App\Traits\ApiResponsor;
 use App\Utils\Logger;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
-	use ApiResponser;
+	use ApiResponsor;
 
 	public function upload(Request $request): JsonResponse
 	{

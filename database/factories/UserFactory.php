@@ -26,7 +26,6 @@ class UserFactory extends Factory
 				->unique()
 				->safeEmail(),
 			'password' => bcrypt('password'),
-			'status' => fake()->boolean(),
 			'avatar' => 'default-avatar.png',
 		];
 	}

@@ -40,7 +40,9 @@ class ProfileTransformer extends TransformerAbstract
 			'user_name' => $user->user_name,
 			'email' => $user->email,
 			'role' => $user->role,
+			'token' => $user->token,
 			'status' => $user->status,
+			'last_sign_in' => $user->last_sign_in,
 			'created_at' => $user->created_at,
 			'updated_at' => $user->updated_at,
 		];

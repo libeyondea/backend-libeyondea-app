@@ -17,13 +17,16 @@ return new class extends Migration {
 			$table->string('first_name');
 			$table->string('last_name');
 			$table->string('user_name')->unique();
-			$table->string('avatar');
 			$table->string('email')->unique();
-			$table->timestamp('email_verified_at')->nullable();
+			$table->string('avatar');
 			$table->string('password');
-			$table->rememberToken();
 			$table->enum('role', ['owner', 'admin', 'moderator', 'member'])->default('member');
-			$table->boolean('status')->default(false);
+			$table
+				->string('token', 64)
+				->unique()
+				->nullable();
+			$table->tinyInteger('status')->default(0);
+			$table->timestamp('last_sign_in')->nullable();
 			$table->timestamps();
 		});
 	}

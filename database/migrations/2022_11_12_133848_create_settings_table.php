@@ -21,7 +21,7 @@ return new class extends Migration {
 				->constrained()
 				->cascadeOnUpdate()
 				->cascadeOnDelete();
-			$table->enum('theme', ['light', 'dark', 'retro', 'valentine', 'halloween', 'forest', 'dracula', 'night', 'coffee', 'winter'])->default('light');
+			$table->enum('language', ['en', 'vi'])->default('en');
 			$table->timestamps();
 		});
 	}

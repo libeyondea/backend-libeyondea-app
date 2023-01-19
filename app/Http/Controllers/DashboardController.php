@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Traits\ApiResponser;
+use App\Traits\ApiResponsor;
 use App\Utils\Logger;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
 class DashboardController extends Controller
 {
-	use ApiResponser;
+	use ApiResponsor;
 
 	public function show(): JsonResponse
 	{
