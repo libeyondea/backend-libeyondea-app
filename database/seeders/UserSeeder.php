@@ -16,12 +16,12 @@ class UserSeeder extends Seeder
 	public function run()
 	{
 		User::create([
+			'role_id' => 1,
 			'first_name' => 'Thuc',
 			'last_name' => 'Nguyen',
 			'user_name' => 'libeyondea',
 			'email' => 'libeyondea@gmail.com',
 			'password' => bcrypt('libeyondea'),
-			'role' => 'owner',
 			'status' => 1,
 			'avatar' => 'default-avatar.png',
 		]);
