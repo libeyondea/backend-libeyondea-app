@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponsor;
 
@@ -15,27 +14,27 @@ class StatusCheck
 	 * Handle an incoming request.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
-	 * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+	 * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse)  $next
 	 * @param  string  $status
-	 * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+	 * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
 	 */
 	public function handle(Request $request, Closure $next, $status)
 	{
-		if (Auth::guest()) {
+		if (auth()->guest()) {
 			return $this->responseUnauthorized();
 		}
 
 		if ($status === 'active') {
-			if (Auth::user()->status !== 1) {
+			if (auth()->user()->status !== 1) {
 				return $this->responseForbidden('Your account has not been activated.');
 			}
-		} elseif ($status === 'deactive') {
-			if (Auth::user()->status !== 0) {
-				return $this->responseForbidden('Your account has been activated.');
+		} elseif ($status === 'inactive') {
+			if (auth()->user()->status !== 0) {
+				return $this->responseForbidden('Your account has not been inactivated.');
 			}
 		} elseif ($status === 'blocked') {
-			if (Auth::user()->status !== 2) {
-				return $this->responseForbidden('Your account has been blocked.');
+			if (auth()->user()->status !== 2) {
+				return $this->responseForbidden('Your account has not been blocked.');
 			}
 		}
 

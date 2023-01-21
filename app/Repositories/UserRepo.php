@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Beans\ModuleType;
+use App\Beans\PermissionType;
 use App\Models\User;
 use App\Transformers\UserTransformer;
 use App\Utils\Logger;
@@ -17,15 +19,17 @@ class UserRepo extends AbstractBaseRepo
 	public function list(Request $request): array
 	{
 		try {
-			if (!$this->isActive()) {
-				return $this->errorActive();
+			if (!$this->isPermission(ModuleType::USER, PermissionType::VIEW)) {
+				return $this->errorPermission();
 			}
 
 			$queryBuilder = User::query();
 
-			$users = $queryBuilder->paginate();
+			$queryBuilder->searchCriteriaInQueryBuilder(['first_name', 'last_name', 'user_name', 'email']);
 
-			$results = fractal($users, new UserTransformer())->toArray();
+			$queryBuilder = $queryBuilder->pagination();
+
+			$results = fractal($queryBuilder, new UserTransformer())->toArray();
 
 			return [
 				'success' => true,

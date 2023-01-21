@@ -22,4 +22,14 @@ class Permission extends Model
 		'update' => 'boolean',
 		'delete' => 'boolean',
 	];
+
+	public function role()
+	{
+		return $this->belongsTo(Role::class);
+	}
+
+	public function module()
+	{
+		return $this->belongsTo(Module::class);
+	}
 }

@@ -24,7 +24,7 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::post('/signin', [AuthController::class, 'signIn']);
 	Route::post('/signup', [AuthController::class, 'signUp']);
 
-	Route::group(['middleware' => ['auth:sanctum']], function () {
+	Route::group(['middleware' => ['auth:sanctum', 'status:active']], function () {
 		Route::get('/me', [AuthController::class, 'me']);
 		Route::post('/signout', [AuthController::class, 'signOut']);
 

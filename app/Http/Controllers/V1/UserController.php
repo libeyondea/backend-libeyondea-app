@@ -36,7 +36,6 @@ class UserController extends Controller
 	{
 		try {
 			$user = User::findOrFail($id);
-
 			return $this->respondSuccess(fractal($user, new UserTransformer())->toArray());
 		} catch (Exception $e) {
 			Logger::emergency($e);

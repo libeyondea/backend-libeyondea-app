@@ -2,63 +2,48 @@
 
 namespace App\Repositories;
 
-use App\Models\User;
+use App\Beans\PermissionType;
+use App\Beans\RoleType;
+use App\Models\Permission;
 use Illuminate\Http\Response;
 
 abstract class AbstractBaseRepo
 {
-	public $loggedInUser;
-
-	public function __construct()
+	public function isPermission($modules, $permit): bool
 	{
-		$this->loggedInUser = $this->getLoggedInUser();
-	}
-
-	protected function getLoggedInUser()
-	{
-		$user = auth()->user();
-		if ($user instanceof User) {
-			return $user;
+		if (auth()->user()->role->name === RoleType::OWNER) {
+			return true;
 		} else {
-			return new User();
-		}
-	}
-
-	public function isPermission($module_codes, $permit): bool
-	{
-		return false;
-	}
-
-	public function isActive(): bool
-	{
-		if ($this->loggedInUser->status === 1) {
-			return true;
-		}
-		return false;
-	}
-
-	public function isInactive(): bool
-	{
-		if ($this->loggedInUser->status === 0) {
-			return true;
-		}
-		return false;
-	}
-
-	public function isBlocked(): bool
-	{
-		if ($this->loggedInUser->status === 2) {
-			return true;
+			$modules = explode(',', $modules);
+			foreach ($modules as $module) {
+				$permission = Permission::where('role_id', auth()->user()->role_id)
+					->whereHas('module', function ($q) use ($module) {
+						$q->where('name', $module);
+					})
+					->first();
+				if ($permission) {
+					if ($permit === PermissionType::VIEW && $permission->view === true) {
+						return true;
+					} elseif ($permit === PermissionType::CREATE && $permission->create === true) {
+						return true;
+					} elseif ($permit === PermissionType::UPDATE && $permission->update === true) {
+						return true;
+					} elseif ($permit === PermissionType::DELETE && $permission->delete === true) {
+						return true;
+					}
+				}
+				return false;
+			}
 		}
 		return false;
 	}
 
-	public function errorActive(): array
+	public function errorPermission()
 	{
 		return [
 			'success' => false,
 			'code' => Response::HTTP_FORBIDDEN,
-			'message' => 'Your account has not been activated.',
+			'message' => 'You have been denied permission to access this function.',
 		];
 	}
 }
