@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Beans\RoleType;
+use App\Models\Role;
 use App\Models\Setting;
 use App\Models\User;
 use App\Transformers\MeTransformer;
@@ -118,7 +120,7 @@ class AuthRepo extends AbstractBaseRepo
 			$user->email = $request->email;
 			$user->avatar = 'default-avatar.png';
 			$user->password = bcrypt($request->password);
-			$user->role = 'member';
+			$user->role_id = Role::where('name', RoleType::MEMBER)->first()->id;
 			$user->token = null;
 			$user->status = 0;
 			$user->last_sign_in = null;
@@ -127,6 +129,7 @@ class AuthRepo extends AbstractBaseRepo
 			$setting = new Setting();
 			$setting->user_id = $user->id;
 			$setting->language = 'en';
+			$setting->save();
 			DB::commit();
 
 			$results = fractal($user, new MeTransformer())->toArray();

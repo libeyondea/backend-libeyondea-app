@@ -29,6 +29,10 @@ Route::group(['prefix' => 'v1'], function () {
 		Route::post('/signout', [AuthController::class, 'signOut']);
 
 		Route::get('/users', [UserController::class, 'index']);
+		Route::get('/users/{id}', [UserController::class, 'show']);
+		Route::post('/users', [UserController::class, 'store']);
+		Route::put('/users/{id}', [UserController::class, 'update']);
+		Route::delete('/users/{id}', [UserController::class, 'destroy']);
 	});
 });
 
@@ -36,12 +40,7 @@ Route::group(['middleware' => ['auth:sanctum', 'status:active']], function () {
 	Route::get('/profile', [ProfileController::class, 'show']);
 	Route::put('/profile', [ProfileController::class, 'update']);
 
-	Route::get('/dashboard', [DashboardController::class, 'show'])->middleware('role:owner');
-
-	Route::get('/users/{id}', [UserController::class, 'show'])->middleware('role:owner');
-	Route::post('/users', [UserController::class, 'store'])->middleware('role:owner');
-	Route::put('/users/{id}', [UserController::class, 'update'])->middleware('role:owner');
-	Route::delete('/users/{id}', [UserController::class, 'destroy'])->middleware('role:owner');
+	Route::get('/dashboard', [DashboardController::class, 'show']);
 
 	Route::get('/settings', [SettingController::class, 'show']);
 	Route::put('/settings', [SettingController::class, 'update']);
