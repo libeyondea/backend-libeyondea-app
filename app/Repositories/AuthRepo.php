@@ -120,7 +120,7 @@ class AuthRepo extends AbstractBaseRepo
 			$user->email = $request->email;
 			$user->avatar = 'default-avatar.png';
 			$user->password = bcrypt($request->password);
-			$user->role_id = Role::where('name', RoleType::MEMBER)->first()->id;
+			$user->role_id = Role::where('code', RoleType::MEMBER)->first()->id;
 			$user->token = null;
 			$user->status = 0;
 			$user->last_sign_in = null;

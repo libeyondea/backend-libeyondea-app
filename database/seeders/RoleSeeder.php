@@ -23,6 +23,7 @@ class RoleSeeder extends Seeder
 			Role::create([
 				'id' => $role->id,
 				'name' => $role->name,
+				'code' => $role->code,
 			]);
 		}
 	}

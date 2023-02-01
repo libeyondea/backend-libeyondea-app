@@ -1,6 +1,7 @@
 [
 	{
 		"id": 1,
-		"name": "User"
+		"name": "User",
+		"code": "User"
 	}
 ]

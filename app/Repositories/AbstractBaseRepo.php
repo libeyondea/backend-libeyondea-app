@@ -11,14 +11,14 @@ abstract class AbstractBaseRepo
 {
 	public function isPermission($modules, $permit): bool
 	{
-		if (auth()->user()->role->name === RoleType::OWNER) {
+		if (auth()->user()->role->code === RoleType::OWNER) {
 			return true;
 		} else {
 			$modules = explode(',', $modules);
 			foreach ($modules as $module) {
 				$permission = Permission::where('role_id', auth()->user()->role_id)
 					->whereHas('module', function ($q) use ($module) {
-						$q->where('name', $module);
+						$q->where('code', $module);
 					})
 					->first();
 				if ($permission) {

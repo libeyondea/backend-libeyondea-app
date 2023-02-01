@@ -22,7 +22,6 @@ return new class extends Migration {
 			$table->string('email')->unique();
 			$table->string('avatar');
 			$table->string('password');
-			// $table->enum('role', ['owner', 'admin', 'moderator', 'member'])->default('member');
 			$table
 				->string('token', 64)
 				->unique()

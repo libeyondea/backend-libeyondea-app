@@ -23,6 +23,7 @@ class ModuleSeeder extends Seeder
 			Module::create([
 				'id' => $module->id,
 				'name' => $module->name,
+				'code' => $module->code,
 			]);
 		}
 	}

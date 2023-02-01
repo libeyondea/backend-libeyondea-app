@@ -104,7 +104,7 @@ class UserRepo extends AbstractBaseRepo
 			$user->last_name = $request->last_name;
 			$user->user_name = $request->user_name;
 			$user->email = $request->email;
-			$user->role_id = $request->role;
+			$user->role_id = $request->role['id'];
 			$user->status = $request->status;
 			$user->password = isset($request->password) ? bcrypt($request->password) : bcrypt(Str::random(10));
 			$user->avatar = isset($request->avatar) ? $request->avatar : 'default-avatar.png';
@@ -173,7 +173,7 @@ class UserRepo extends AbstractBaseRepo
 			$user->last_name = $request->last_name;
 			$user->user_name = $request->user_name;
 			$user->email = $request->email;
-			$user->role_id = $request->role;
+			$user->role_id = $request->role['id'];
 			$user->status = $request->status;
 			$user->token = null;
 			$user->status = 0;

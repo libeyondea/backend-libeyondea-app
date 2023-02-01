@@ -1,18 +1,22 @@
 [
 	{
 		"id": 1,
-		"name": "Owner"
+		"name": "Owner",
+		"code": "Owner"
 	},
 	{
 		"id": 2,
-		"name": "Admin"
+		"name": "Admin",
+		"code": "Admin"
 	},
 	{
 		"id": 3,
-		"name": "Moderator"
+		"name": "Moderator",
+		"code": "Moderator"
 	},
 	{
 		"id": 4,
-		"name": "Member"
+		"name": "Member",
+		"code": "Member"
 	}
 ]
