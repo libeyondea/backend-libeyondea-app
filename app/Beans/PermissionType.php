@@ -4,8 +4,8 @@ namespace App\Beans;
 
 class PermissionType
 {
-	const VIEW = 'view';
-	const CREATE = 'create';
-	const UPDATE = 'update';
-	const DELETE = 'delete';
+	const VIEW = 'View';
+	const CREATE = 'Create';
+	const UPDATE = 'Update';
+	const DELETE = 'Delete';
 }

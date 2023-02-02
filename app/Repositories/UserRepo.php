@@ -8,7 +8,6 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Transformers\UserTransformer;
 use App\Utils\Logger;
-use App\Utils\Utils;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,7 +17,7 @@ use Illuminate\Support\Str;
 
 class UserRepo extends AbstractBaseRepo
 {
-	public function list(Request $request): array
+	public function list(): array
 	{
 		try {
 			if (!$this->isPermission(ModuleType::USER, PermissionType::VIEW)) {
@@ -27,11 +26,11 @@ class UserRepo extends AbstractBaseRepo
 
 			$queryBuilder = User::query();
 
-			$queryBuilder->searchCriteriaInQueryBuilder(['first_name', 'last_name', 'user_name', 'email']);
+			$queryBuilder->filter();
 
-			$queryBuilder = $queryBuilder->pagination();
+			$users = $queryBuilder->pagination();
 
-			$results = fractal($queryBuilder, new UserTransformer())->toArray();
+			$results = fractal($users, new UserTransformer())->toArray();
 
 			return [
 				'success' => true,
@@ -54,9 +53,9 @@ class UserRepo extends AbstractBaseRepo
 	public function show(int $id): array
 	{
 		try {
-			$queryBuilder = User::findOrFail($id);
+			$user = User::findOrFail($id);
 
-			$results = fractal($queryBuilder, new UserTransformer())->toArray();
+			$results = fractal($user, new UserTransformer())->toArray();
 
 			return [
 				'success' => true,
@@ -85,7 +84,6 @@ class UserRepo extends AbstractBaseRepo
 				'password' => 'string|min:6|max:60',
 				'role' => 'required',
 				'role.id' => 'required|integer',
-				'role.name' => 'required|string',
 				'status' => 'required|integer',
 				'avatar' => 'string|max:255',
 			]);
@@ -98,19 +96,31 @@ class UserRepo extends AbstractBaseRepo
 				];
 			}
 
+			$validatedData = $validator->validated();
+
 			DB::beginTransaction();
 			$user = new User();
-			$user->first_name = $request->first_name;
-			$user->last_name = $request->last_name;
-			$user->user_name = $request->user_name;
-			$user->email = $request->email;
-			$user->role_id = $request->role['id'];
-			$user->status = $request->status;
-			$user->password = isset($request->password) ? bcrypt($request->password) : bcrypt(Str::random(10));
-			$user->avatar = isset($request->avatar) ? $request->avatar : 'default-avatar.png';
+			$user->first_name = $validatedData['first_name'];
+			$user->last_name = $validatedData['last_name'];
+			$user->user_name = $validatedData['user_name'];
+			$user->email = $validatedData['email'];
+			$user->role_id = $validatedData['role']['id'];
+			$user->status = $validatedData['status'];
 			$user->token = null;
-			$user->status = 0;
 			$user->last_sign_in = null;
+
+			if (isset($request->password)) {
+				$user->password = bcrypt($validatedData['password']);
+			} else {
+				$user->password = bcrypt(Str::random(10));
+			}
+
+			if (isset($request->avatar)) {
+				$user->avatar = $validatedData['avatar'];
+			} else {
+				$user->avatar = 'default-avatar.png';
+			}
+
 			$user->save();
 
 			$setting = new Setting();
@@ -146,7 +156,6 @@ class UserRepo extends AbstractBaseRepo
 				'password' => 'string|min:6|max:60',
 				'role' => 'required',
 				'role.id' => 'required|integer',
-				'role.name' => 'required|string',
 				'status' => 'required|integer',
 				'avatar' => 'string|max:255',
 			]);
@@ -159,6 +168,8 @@ class UserRepo extends AbstractBaseRepo
 				];
 			}
 
+			$validatedData = $validator->validated();
+
 			$user = User::findOrFail($id);
 
 			if (auth()->user()->id === $user->id) {
@@ -169,14 +180,13 @@ class UserRepo extends AbstractBaseRepo
 				];
 			}
 
-			$user->first_name = $request->first_name;
-			$user->last_name = $request->last_name;
-			$user->user_name = $request->user_name;
-			$user->email = $request->email;
-			$user->role_id = $request->role['id'];
-			$user->status = $request->status;
+			$user->first_name = $validatedData['first_name'];
+			$user->last_name = $validatedData['last_name'];
+			$user->user_name = $validatedData['user_name'];
+			$user->email = $validatedData['email'];
+			$user->role_id = $validatedData['role']['id'];
+			$user->status = $validatedData['status'];
 			$user->token = null;
-			$user->status = 0;
 			$user->last_sign_in = null;
 
 			if (isset($request->password)) {
