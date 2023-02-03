@@ -26,7 +26,7 @@ class User extends Authenticatable
 	 *
 	 * @var array
 	 */
-	protected $filterable = ['first_name', 'last_name', 'user_name', 'email'];
+	protected $filterable = ['first_name', 'last_name', 'user_name', 'email', 'created_at', 'updated_at'];
 
 	/**
 	 * The fields that should be sortable by query.
