@@ -42,10 +42,12 @@ trait CustomScope
 
 	public function scopeSearch(Builder $queryBuilder)
 	{
-		if (request()->has('keyword')) {
-			$queryBuilder->where(function ($q) {
+		$keyword = request('keyword', '');
+
+		if (!empty($keyword)) {
+			$queryBuilder->where(function ($q) use ($keyword) {
 				foreach ($this->filterable ?? [] as $field) {
-					$q->orWhere($field, 'like', '%' . request()->keyword . '%');
+					$q->orWhere($field, 'like', '%' . $keyword . '%');
 				}
 			});
 		}
@@ -65,10 +67,9 @@ trait CustomScope
 
 	public function scopePagination(Builder $queryBuilder)
 	{
-		$page = request()->get('page', 1);
-		$perPage = request()->get('per_page', 10);
+		$perPage = request('per_page', 10);
 
-		$queryBuilder = $queryBuilder->paginate($perPage, ['*'], 'page', $page);
+		$queryBuilder = $queryBuilder->paginate($perPage);
 
 		return $queryBuilder;
 	}
