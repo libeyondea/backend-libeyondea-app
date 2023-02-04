@@ -33,6 +33,8 @@ Route::group(['prefix' => 'v1'], function () {
 		Route::post('/users', [UserController::class, 'store']);
 		Route::put('/users/{id}', [UserController::class, 'update']);
 		Route::delete('/users/{id}', [UserController::class, 'destroy']);
+
+		Route::post('/images/upload', [ImageController::class, 'upload']);
 	});
 });
 
@@ -44,6 +46,4 @@ Route::group(['middleware' => ['auth:sanctum', 'status:active']], function () {
 
 	Route::get('/settings', [SettingController::class, 'show']);
 	Route::put('/settings', [SettingController::class, 'update']);
-
-	Route::post('/images/upload', [ImageController::class, 'upload']);
 });

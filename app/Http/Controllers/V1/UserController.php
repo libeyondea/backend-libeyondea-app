@@ -10,8 +10,6 @@ use App\Repositories\UserRepo;
 
 class UserController extends Controller
 {
-	use ApiResponsor;
-
 	protected $userRepo;
 
 	public function __construct(UserRepo $userRepo)

@@ -53,16 +53,24 @@ class UserRepo extends AbstractBaseRepo
 	public function show(int $id): array
 	{
 		try {
-			$user = User::findOrFail($id);
+			$user = User::where('id', $id)->first();
 
-			$results = fractal($user, new UserTransformer())->toArray();
+			if ($user) {
+				$results = fractal($user, new UserTransformer())->toArray();
 
-			return [
-				'success' => true,
-				'code' => Response::HTTP_OK,
-				'message' => 'Get user success.',
-				'data' => $results['data'],
-			];
+				return [
+					'success' => true,
+					'code' => Response::HTTP_OK,
+					'message' => 'Get user success.',
+					'data' => $results['data'],
+				];
+			} else {
+				return [
+					'success' => false,
+					'code' => Response::HTTP_NOT_FOUND,
+					'message' => 'User not found.',
+				];
+			}
 		} catch (Exception $e) {
 			Logger::emergency($e);
 			return [
