@@ -51,52 +51,6 @@ class User extends Authenticatable
 		'email_verified_at' => 'datetime',
 	];
 
-	public function rules(): array
-	{
-		return [
-			'*' => [],
-			'CREATE' => [
-				'first_name' => 'required|string|max:20',
-				'last_name' => 'required|string|max:20',
-				'user_name' => 'required|string|min:3|max:20|unique:users',
-				'email' => 'required|string|email|max:255|unique:users',
-				'password' => 'string|min:6|max:66',
-				'role' => 'required|string|in:owner,admin,moderator,member',
-				'status' => 'required|boolean',
-				'avatar' => 'string|max:255',
-			],
-			'UPDATE' => [
-				'first_name' => 'required|string|max:20',
-				'last_name' => 'required|string|max:20',
-				'user_name' => 'required|string|min:3|max:20|unique:users,user_name,' . $this->id,
-				'email' => 'required|string|email|max:255|unique:users,email,' . $this->id,
-				'password' => 'string|min:6|max:66',
-				'role' => 'required|string|in:owner,admin,moderator,member',
-				'status' => 'required|boolean',
-				'avatar' => 'string|max:255',
-			],
-			'PROFILE' => [
-				'first_name' => 'required|string|max:20',
-				'last_name' => 'required|string|max:20',
-				'user_name' => 'required|string|min:3|max:20|unique:users,user_name,' . $this->id,
-				'email' => 'required|string|email|max:255|unique:users,email,' . $this->id,
-				'password' => 'string|min:6|max:66',
-				'avatar' => 'string|max:255',
-			],
-			'SIGNIN' => [
-				'user_name' => 'required|string|min:3|max:20',
-				'password' => 'required|string|min:6|max:66',
-			],
-			'SIGNUP' => [
-				'first_name' => 'required|string|max:20',
-				'last_name' => 'required|string|max:20',
-				'user_name' => 'required|string|min:3|max:20|unique:users',
-				'email' => 'required|string|email|max:255|unique:users',
-				'password' => 'required|string|min:6|max:66',
-			],
-		];
-	}
-
 	public function getAvatarAttribute()
 	{
 		return config('app.image_url') . '/' . $this->attributes['avatar'];

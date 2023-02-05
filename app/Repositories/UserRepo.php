@@ -178,40 +178,50 @@ class UserRepo extends AbstractBaseRepo
 
 			$validatedData = $validator->validated();
 
-			$user = User::findOrFail($id);
+			DB::beginTransaction();
+			$user = User::where('id', $id)->first();
 
-			if (auth()->user()->id === $user->id) {
+			if ($user) {
+				if ($user->id === auth()->user()->id) {
+					return [
+						'success' => false,
+						'code' => Response::HTTP_FORBIDDEN,
+						'message' => 'You cannot update your own profile.',
+					];
+				}
+
+				$user->first_name = $validatedData['first_name'];
+				$user->last_name = $validatedData['last_name'];
+				$user->user_name = $validatedData['user_name'];
+				$user->email = $validatedData['email'];
+				$user->role_id = $validatedData['role']['id'];
+				$user->status = $validatedData['status'];
+				$user->token = null;
+				$user->last_sign_in = null;
+
+				if (isset($validatedData['password'])) {
+					$user->password = $validatedData['password'];
+				}
+
+				if (isset($validatedData['avatar'])) {
+					$user->avatar = $validatedData['avatar'];
+				}
+
+				$user->save();
+
+				return [
+					'success' => true,
+					'code' => Response::HTTP_OK,
+					'message' => 'Update user success.',
+				];
+			} else {
 				return [
 					'success' => false,
-					'code' => Response::HTTP_FORBIDDEN,
-					'message' => 'You cannot update your own profile.',
+					'code' => Response::HTTP_NOT_FOUND,
+					'message' => 'User not found.',
 				];
 			}
-
-			$user->first_name = $validatedData['first_name'];
-			$user->last_name = $validatedData['last_name'];
-			$user->user_name = $validatedData['user_name'];
-			$user->email = $validatedData['email'];
-			$user->role_id = $validatedData['role']['id'];
-			$user->status = $validatedData['status'];
-			$user->token = null;
-			$user->last_sign_in = null;
-
-			if (isset($request->password)) {
-				$user->password = $request->password;
-			}
-
-			if (isset($request->avatar)) {
-				$user->avatar = $request->avatar;
-			}
-
-			$user->save();
-
-			return [
-				'success' => true,
-				'code' => Response::HTTP_OK,
-				'message' => 'Create user success.',
-			];
+			DB::commit();
 		} catch (Exception $e) {
 			DB::rollBack();
 			Logger::emergency($e);
@@ -227,24 +237,32 @@ class UserRepo extends AbstractBaseRepo
 	{
 		try {
 			DB::beginTransaction();
-			$user = User::findOrFail($id);
+			$user = User::where('id', $id)->first();
 
-			if (auth()->user()->id === $user->id) {
+			if ($user) {
+				if ($user->id === auth()->user()->id) {
+					return [
+						'success' => false,
+						'code' => Response::HTTP_FORBIDDEN,
+						'message' => 'You cannot delete your own profile.',
+					];
+				}
+
+				$user->delete();
+
+				return [
+					'success' => true,
+					'code' => Response::HTTP_OK,
+					'message' => 'Delete user success.',
+				];
+			} else {
 				return [
 					'success' => false,
-					'code' => Response::HTTP_FORBIDDEN,
-					'message' => 'You cannot delete your own profile.',
+					'code' => Response::HTTP_NOT_FOUND,
+					'message' => 'User not found.',
 				];
 			}
-
-			$user->delete();
 			DB::commit();
-
-			return [
-				'success' => true,
-				'code' => Response::HTTP_OK,
-				'message' => 'Delete user success.',
-			];
 		} catch (Exception $e) {
 			DB::rollBack();
 			Logger::emergency($e);

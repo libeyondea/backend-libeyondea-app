@@ -5,7 +5,6 @@ namespace App\Http\Controllers\V1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Traits\ApiResponsor;
 use App\Repositories\UserRepo;
 
 class UserController extends Controller
