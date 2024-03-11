@@ -143,7 +143,7 @@ class AuthRepo extends AbstractBaseRepo
 				'message' => 'Sign up success.',
 				'data' => [
 				    'user' => $results,
-					'token' => $user->token
+					  'token' => $user->token
 				],
 			];
 		} catch (Exception $e) {
