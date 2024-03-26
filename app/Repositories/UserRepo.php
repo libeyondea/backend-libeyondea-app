@@ -36,7 +36,7 @@ class UserRepo extends AbstractBaseRepo
 				'success' => true,
 				'code' => Response::HTTP_OK,
 				'message' => 'Get users success.',
-				'data' => $results['data'],
+				'data' => $results,
 				'columns' => UserTransformer::columns,
 				'meta' => $results['meta'],
 			];
@@ -62,7 +62,7 @@ class UserRepo extends AbstractBaseRepo
 					'success' => true,
 					'code' => Response::HTTP_OK,
 					'message' => 'Get user success.',
-					'data' => $results['data'],
+					'data' => $results,
 				];
 			} else {
 				return [

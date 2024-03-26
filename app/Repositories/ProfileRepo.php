@@ -25,7 +25,7 @@ class ProfileRepo extends AbstractBaseRepo
 					'success' => true,
 					'code' => Response::HTTP_OK,
 					'message' => 'Get profile success.',
-					'data' => $results['data'],
+					'data' => $results,
 				];
 			} else {
 				return [

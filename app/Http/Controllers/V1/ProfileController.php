@@ -16,9 +16,9 @@ class ProfileController extends Controller
 		$this->profileRepo = $profileRepo;
 	}
 
-	public function show(int $id): JsonResponse
+	public function show(): JsonResponse
 	{
-		$results = $this->profileRepo->show($id);
+		$results = $this->profileRepo->show();
 		return response()->json($results, $results['code']);
 	}
 
