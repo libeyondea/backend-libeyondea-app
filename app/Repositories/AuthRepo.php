@@ -62,8 +62,8 @@ class AuthRepo extends AbstractBaseRepo
 					'code' => Response::HTTP_OK,
 					'message' => 'Sign in success.',
 					'data' => [
-			        'user' => $results,
-	            'token' => $user->token
+						'user' => $results,
+						'token' => $user->token,
 					],
 				];
 			} elseif ($user->status === 0) {
@@ -142,8 +142,8 @@ class AuthRepo extends AbstractBaseRepo
 				'code' => Response::HTTP_OK,
 				'message' => 'Sign up success.',
 				'data' => [
-				    'user' => $results,
-					  'token' => $user->token
+					'user' => $results,
+					'token' => $user->token,
 				],
 			];
 		} catch (Exception $e) {
@@ -194,8 +194,8 @@ class AuthRepo extends AbstractBaseRepo
 				'code' => Response::HTTP_OK,
 				'message' => 'Get me success.',
 				'data' => [
-				    'user' => $results,
-	          'token' => $user->token
+					'user' => $results,
+					'token' => $user->token,
 				],
 			];
 		} catch (Exception $e) {
