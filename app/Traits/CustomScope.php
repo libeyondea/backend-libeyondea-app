@@ -16,7 +16,7 @@ trait CustomScope
 	// 			continue;
 	// 		}
 
-	// 		if (in_array($key, ['keyword'])) {
+	// 		if (in_array($key, ['search'])) {
 	// 			$queryBuilder->where(function ($q) use ($value) {
 	// 				foreach ($this->filterable ?? [] as $field) {
 	// 					$q->orWhere($field, 'like', '%' . $value . '%');
@@ -42,12 +42,12 @@ trait CustomScope
 
 	public function scopeSearch(Builder $queryBuilder)
 	{
-		$keyword = request('keyword', '');
+		$search = request('search', '');
 
-		if (!empty($keyword)) {
-			$queryBuilder->where(function ($q) use ($keyword) {
+		if (!empty($search)) {
+			$queryBuilder->where(function ($q) use ($search) {
 				foreach ($this->filterable ?? [] as $field) {
-					$q->orWhere($field, 'like', '%' . $keyword . '%');
+					$q->orWhere($field, 'like', '%' . $search . '%');
 				}
 			});
 		}
