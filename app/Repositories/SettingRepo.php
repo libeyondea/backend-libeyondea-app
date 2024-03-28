@@ -26,7 +26,7 @@ class SettingRepo extends AbstractBaseRepo
 					'success' => true,
 					'code' => Response::HTTP_OK,
 					'message' => 'Get setting success.',
-					'data' => $results,
+					'data' => $results['data'],
 				];
 			} else {
 				return [
