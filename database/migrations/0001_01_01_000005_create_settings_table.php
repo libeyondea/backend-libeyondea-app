@@ -15,12 +15,7 @@ return new class extends Migration {
 	{
 		Schema::create('settings', function (Blueprint $table) {
 			$table->id();
-			$table
-				->foreignIdFor(User::class)
-				->unique()
-				->constrained()
-				->cascadeOnUpdate()
-				->cascadeOnDelete();
+			$table->foreignIdFor(User::class)->unique()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
 			$table->enum('language', ['en', 'vi'])->default('en');
 			$table->timestamps();
 		});
