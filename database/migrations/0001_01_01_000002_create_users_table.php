@@ -8,10 +8,8 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
 	/**
 	 * Run the migrations.
-	 *
-	 * @return void
 	 */
-	public function up()
+	public function up(): void
 	{
 		Schema::create('users', function (Blueprint $table) {
 			$table->id();
@@ -22,10 +20,7 @@ return new class extends Migration {
 			$table->string('email')->unique();
 			$table->string('avatar');
 			$table->string('password');
-			$table
-				->string('token', 64)
-				->unique()
-				->nullable();
+			$table->string('token', 64)->unique()->nullable();
 			$table->tinyInteger('status')->default(0);
 			$table->timestamp('last_sign_in')->nullable();
 			$table->timestamps();
@@ -34,10 +29,8 @@ return new class extends Migration {
 
 	/**
 	 * Reverse the migrations.
-	 *
-	 * @return void
 	 */
-	public function down()
+	public function down(): void
 	{
 		Schema::dropIfExists('users');
 	}

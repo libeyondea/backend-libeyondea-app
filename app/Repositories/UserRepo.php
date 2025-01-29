@@ -24,9 +24,7 @@ class UserRepo extends AbstractBaseRepo
 				return $this->errorPermission();
 			}
 
-			$queryBuilder = User::query()
-				->search()
-				->filter();
+			$queryBuilder = User::query()->search()->filter();
 
 			$users = $queryBuilder->pagination();
 

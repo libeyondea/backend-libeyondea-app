@@ -5,47 +5,11 @@ namespace App\Exceptions;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Arr;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
-	/**
-	 * A list of exception types with their corresponding custom log levels.
-	 *
-	 * @var array<class-string<\Throwable>, \Psr\Log\LogLevel::*>
-	 */
-	protected $levels = [
-		//
-	];
-
-	/**
-	 * A list of the exception types that are not reported.
-	 *
-	 * @var array<int, class-string<\Throwable>>
-	 */
-	protected $dontReport = [
-		//
-	];
-
-	/**
-	 * A list of the inputs that are never flashed to the session on validation exceptions.
-	 *
-	 * @var array<int, string>
-	 */
-	protected $dontFlash = ['current_password', 'password', 'password_confirmation'];
-
-	/**
-	 * Register the exception handling callbacks for the application.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		$this->reportable(function (Throwable $e) {
-			//
-		});
-	}
-
 	/**
 	 * Convert an authentication exception into a response.
 	 *
@@ -64,7 +28,7 @@ class Handler extends ExceptionHandler
 				],
 				401
 			)
-			: redirect()->guest($exception->redirectTo() ?? route('login'));
+			: redirect()->guest($exception->redirectTo($request) ?? route('login'));
 	}
 
 	/**
@@ -78,20 +42,18 @@ class Handler extends ExceptionHandler
 		return config('app.debug')
 			? [
 				'success' => false,
-				'code' => $this->isHttpException($e) ? $e->getStatusCode() : 500,
+				'code' => $e instanceof HttpExceptionInterface ? $e->getStatusCode() : 500,
 				'message' => $e->getMessage(),
 				'debug' => [
 					'exception' => get_class($e),
 					'file' => $e->getFile(),
 					'line' => $e->getLine(),
-					'trace' => collect($e->getTrace())
-						->map(fn($trace) => Arr::except($trace, ['args']))
-						->all(),
+					'trace' => collect($e->getTrace())->map(fn($trace) => Arr::except($trace, ['args']))->all(),
 				],
 			]
 			: [
 				'success' => false,
-				'code' => $this->isHttpException($e) ? $e->getStatusCode() : 500,
+				'code' => $e instanceof HttpExceptionInterface ? $e->getStatusCode() : 500,
 				'message' => $this->isHttpException($e) ? $e->getMessage() : 'Server Error',
 			];
 	}

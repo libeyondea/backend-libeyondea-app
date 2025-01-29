@@ -16,16 +16,8 @@ return new class extends Migration {
 	{
 		Schema::create('permissions', function (Blueprint $table) {
 			$table->id();
-			$table
-				->foreignIdFor(Role::class)
-				->constrained()
-				->cascadeOnUpdate()
-				->cascadeOnDelete();
-			$table
-				->foreignIdFor(Module::class)
-				->constrained()
-				->cascadeOnUpdate()
-				->cascadeOnDelete();
+			$table->foreignIdFor(Role::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+			$table->foreignIdFor(Module::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
 			$table->unique(['role_id', 'module_id']);
 			$table->boolean('view')->default(false);
 			$table->boolean('create')->default(false);
